@@ -12,7 +12,7 @@ const Navbar = () => {
     }`;
 
   return (
-    <div className="flex w-full h-[5rem] cc bg-gray-50 z-50">
+    <div className="flex w-full h-[5rem] cc">
       <div className="container flex items-center justify-between px-2">
         <NavLink className={navLinkClass} to={"/"}>
           <IoChatbubbleEllipsesOutline />

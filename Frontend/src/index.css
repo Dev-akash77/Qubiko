@@ -21,7 +21,7 @@
   --blue: #5f6fff;
 }
 html {
-  overflow: hidden;
+  overflow-x: hidden;
   scroll-behavior: smooth;
   font-family: "Outfit", serif;
   box-sizing: border-box;

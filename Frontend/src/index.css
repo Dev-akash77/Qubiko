@@ -64,6 +64,6 @@ body {
 @media (max-width: 450px) {
   .mobile_Screen {
     width: 100vw;
-    height: 100vh;
+    min-height: 100dvh; 
   }
 }

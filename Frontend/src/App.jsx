@@ -15,7 +15,7 @@ const App = () => {
     {
       path: "/",
       element: (
-        <ProtectiveRoutes>  //! this is a protective route i
+        <ProtectiveRoutes>  
           <Layout />
         </ProtectiveRoutes>
       ),

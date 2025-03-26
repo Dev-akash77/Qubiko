@@ -3,12 +3,13 @@ import { useStore } from "../Context/Store";
 import { useNavigate } from "react-router-dom";
 
 const ProtectiveRoutes = ({ children }) => {
-  const { token } = useStore();
+  const { token,setislogin } = useStore();
   const navigate = useNavigate();
 
   //   ! if token rae not found then redirect auth page
   useEffect(() => {
     if (!token) {
+      setislogin("Login")
       navigate("/auth");
     }
   }, [token, navigate]);

@@ -6,6 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 const StoreContext = createContext();
 
 export const StoreContextProvider = ({ children }) => {
+
+  // ! header for qubiko
+  const [heading, setheading] = useState({name:"Qubiko AI",logo:true});
   // ! is login or signup
   const [islogin, setislogin] = useState();
   // ! login and signup from data
@@ -86,6 +89,8 @@ export const StoreContextProvider = ({ children }) => {
         fromData, // ! here is all the auth from data
         loginLoading, // ! login Loding
         token, // ! here is authorization token
+        heading,  //! header heading
+        setheading, //! header heading
       }}
     >
       {children}

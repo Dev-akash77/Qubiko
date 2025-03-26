@@ -10,6 +10,7 @@ import History from "./Pages/History";
 import Login_Signup from "./Authentication/Login_Signup";
 import { StoreContextProvider } from "./Context/Store";
 import ProtectiveRoutes from "./Components/ProtectiveRoutes";
+import Chat from "./Pages/Chat";
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -23,6 +24,10 @@ const App = () => {
         {
           index: true,
           element: <Welcome />,
+        },
+        {
+          path: "chat",
+          element: <Chat />,
         },
         {
           path: "assistent",

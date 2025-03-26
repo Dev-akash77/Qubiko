@@ -11,7 +11,6 @@ const Layout = () => {
           <Header icon={"logo"} text={"Qubiko AI"} />
           <div className="h-full overflow-auto">
             <Outlet />
-            <Outlet />
           </div>
           <Navbar />
         </div>

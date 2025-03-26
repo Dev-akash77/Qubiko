@@ -1,11 +1,11 @@
 import { model, Schema } from "mongoose";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 
 const UserSchema = new Schema(
   {
     name: { type: String, required: true },
     password: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     number: { type: String, default: "0000000000" },
     otp: { type: String, default: "" },
     otpEXPDate: { type: Date, default: () => Date.now() + 5 * 60 * 1000 },
@@ -15,7 +15,8 @@ const UserSchema = new Schema(
         "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png",
     },
     gender: { type: String, default: "Not selected" },
-    email: { type: String, required: true, unique: true },
+    maxHistory: { type: Number, default: 5 },
+    pro: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

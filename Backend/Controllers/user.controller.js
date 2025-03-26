@@ -21,7 +21,7 @@ export const registerController = async (req, res) => {
     if (password.length < 6) {
       return res.status(400).json({
         success: false,
-        message: "Password length must be at least 6 characters",
+        message: "Please add strong password",
       });
     }
 
@@ -91,8 +91,9 @@ export const logiController = async (req, res) => {
 // !query prompt
 export const queryPrompt = async (req, res) => {
   try {
-    const { query, chatId, userId } = req.body;
-
+    const { query, chatId } = req.body;
+    const userId = req.user._id;
+    
     if (!query) {
       return res.status(400).json({ success: false, error: "Query is required." });
     }

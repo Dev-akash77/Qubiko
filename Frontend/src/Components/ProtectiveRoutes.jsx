@@ -9,7 +9,6 @@ const ProtectiveRoutes = ({ children }) => {
   //   ! if token rae not found then redirect auth page
   useEffect(() => {
     if (!token) {
-      setislogin("Login")
       navigate("/auth");
     }
   }, [token, navigate]);

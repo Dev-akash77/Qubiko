@@ -19,7 +19,7 @@ const Welcome = () => {
           Start chatting with Qubiko AI now. <br /> You can ask me anything.
         </p>
 
-        <Link to={"chat"} className="w-[90%] py-3 cc bg-blue rounded-full text-white capitalize text-md cursor-pointer">
+        <Link to={"/chat/start"} className="w-[90%] py-3 cc bg-blue rounded-full text-white capitalize text-md cursor-pointer">
           start Chat
         </Link>
       </div>

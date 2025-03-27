@@ -14,9 +14,22 @@ import Chat from "./Pages/Chat";
 const App = () => {
   const router = createBrowserRouter([
     {
+      path: "/auth",
+      element: <Login_Signup />,
+    },
+
+    {
+      path: "/chat/:chatId",
+      element: (
+        <ProtectiveRoutes>
+          <Chat />
+        </ProtectiveRoutes>
+      ),
+    },
+    {
       path: "/",
       element: (
-        <ProtectiveRoutes>  
+        <ProtectiveRoutes>
           <Layout />
         </ProtectiveRoutes>
       ),
@@ -24,10 +37,6 @@ const App = () => {
         {
           index: true,
           element: <Welcome />,
-        },
-        {
-          path: "chat",
-          element: <Chat />,
         },
         {
           path: "assistent",
@@ -42,10 +51,6 @@ const App = () => {
           element: <Account />,
         },
       ],
-    },
-    {
-      path: "/auth",
-      element: <Login_Signup />,
     },
   ]);
 

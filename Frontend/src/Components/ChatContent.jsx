@@ -1,21 +1,29 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import { useSocket } from "../Context/Socket";
+import Prism from "prismjs";
 const ChatContent = () => {
+
+  const { message } = useSocket();
+  useEffect(()=>{
+    Prism.highlightAll();
+  },[message]);
+
   return (
     <div className="h-full cc w-full mt-5">
       <div className="container h-full w-full flex flex-col gap-5">
-        {[1, 2,3,4].map((cur, id) => {
+        {message?.map((cur, id) => {
           return (
             <div key={id} className="flex flex-col gap-5">
               <div className="ai flex justify-end">
-                <div className="bg-highlightText text-white w-[85%] py-4 px-5 rounded-2xl rounded-br-[.3rem]">
-                  Hello There
+                <div className="bg-gray-100 text-black w-max py-2 rounded-xl px-5">
+                  {cur.question}
                 </div>
               </div>
 
-              <div className="user flex justify-start">
-                <div className="bg-gray-100 w-[85%] py-4 px-5 rounded-2xl rounded-tl-[.3rem] text-black">
-                  Hello! How may I assist you today? assist you today?
+              <div className="user flex justify-center">
+                <div className="w-full py-4 px-1 text-black">
+                  <ReactMarkdown>{cur.answer}</ReactMarkdown>
                 </div>
               </div>
             </div>

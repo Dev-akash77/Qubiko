@@ -4,11 +4,17 @@ import Header from "../Components/Header";
 import InputChat from "../Components/InputChat";
 import ChatContent from "../Components/ChatContent";
 import StartChat from "../Components/StartChat";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Chat = () => {
+  const { setheading, heading,chatID } = useStore();
   const { chatId } = useParams();
-  const { setheading, heading } = useStore();
+  const navigate = useNavigate();
+   useEffect(()=>{
+  if (chatId!==chatID) {
+    navigate(`/chat/${chatID}`)
+  }
+   },[chatID])
 
   useEffect(() => {
     setheading({ name: "Qubiko AI", logo: false });

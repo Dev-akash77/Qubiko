@@ -11,6 +11,7 @@ import Login_Signup from "./Authentication/Login_Signup";
 import { StoreContextProvider } from "./Context/Store";
 import ProtectiveRoutes from "./Components/ProtectiveRoutes";
 import Chat from "./Pages/Chat";
+import { SocketProvider } from "./Context/Socket";
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -60,12 +61,14 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <StoreContextProvider>
-        <RouterProvider router={router}></RouterProvider>
-        <ToastContainer
-          position="top-right"
-          transition={Bounce}
-          className="my_custom_toast"
-        />
+        <SocketProvider>
+          <RouterProvider router={router}></RouterProvider>
+          <ToastContainer
+            position="top-right"
+            transition={Bounce}
+            className="my_custom_toast"
+          />
+        </SocketProvider>
       </StoreContextProvider>
     </QueryClientProvider>
   );

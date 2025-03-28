@@ -3,7 +3,7 @@ import cors from "cors"
 import "dotenv/config";
 import { dbConnect } from "./Config/db.connection.js";
 import { userRouter } from "./Routes/user.routes.js";
-const app = express();
+import { app, server } from "./websocket.js"; //! from socket
 
 app.use(express.json());
 app.use(cors());
@@ -23,6 +23,6 @@ app.use("/user",userRouter)
 
 
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

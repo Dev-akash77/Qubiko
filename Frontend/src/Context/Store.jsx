@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loginApi, registerApi } from "../Api/Api";
+import { loginApi, registerApi, userProfile } from "../Api/Api";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 
@@ -9,6 +9,8 @@ export const StoreContextProvider = ({ children }) => {
 
   // ! header for qubiko
   const [heading, setheading] = useState({name:"Qubiko AI",logo:true});
+  // ! chat id
+  const [chatID, setChatID] = useState("start")
   // ! is login or signup
   const [islogin, setislogin] = useState();
   // ! login and signup from data
@@ -17,7 +19,7 @@ export const StoreContextProvider = ({ children }) => {
     email: "",
     password: "",
   });
-
+ 
   // ! here is auth token
   const [token, setToken] = useState(
     JSON.parse(localStorage.getItem("token")) || false
@@ -27,7 +29,7 @@ export const StoreContextProvider = ({ children }) => {
     localStorage.setItem("token",JSON.stringify(token));
   },[token])
   // !!!!!!!!!!!!!!! here is all the tanstack query start
-  const {
+  const {    //! login react query
     data: loginData,
     refetch: loginRefetch,
     isLoading: loginLoading,
@@ -36,7 +38,22 @@ export const StoreContextProvider = ({ children }) => {
     queryFn: () => loginApi(fromData),
     enabled: false,
   });
+
+
+// ! user profile react query
+const {
+  data: profileData,
+  refetch: profileRefetch,
+  isLoading: profileLoading,
+} = useQuery({
+  queryKey: ["profile"],
+  queryFn: () =>  userProfile(token),
+  enabled: !!token,
+});
+
   // !!!!!!!!!!!!!!!!! here is all the tanstack query end
+
+
 
   // ! changes handle fromdata function
   const handleFromdata = (e) => {
@@ -91,6 +108,9 @@ export const StoreContextProvider = ({ children }) => {
         token, // ! here is authorization token
         heading,  //! header heading
         setheading, //! header heading
+        profileData, //! profile data
+        chatID,  //! chat id
+        setChatID, //! chat id
       }}
     >
       {children}

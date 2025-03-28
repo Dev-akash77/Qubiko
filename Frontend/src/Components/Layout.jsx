@@ -3,7 +3,6 @@ import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import { useStore } from "../Context/Store";
-
 const Layout = () => {
   const {heading} = useStore();
   return (

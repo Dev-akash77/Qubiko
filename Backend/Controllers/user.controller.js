@@ -88,6 +88,25 @@ export const logiController = async (req, res) => {
   }
 };
 
+
+
+// ! get user Profile data 
+
+export const getUserProfile = async (req, res) => {
+  try {
+
+    const profile = req.user; 
+    res
+      .status(200)
+      .json({ success: true,profile });
+  } catch (error) {
+    console.log("getUserProfile controller error: ", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+
+
 // !query prompt
 export const queryPrompt = async (req, res) => {
   try {

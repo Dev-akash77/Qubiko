@@ -6,14 +6,8 @@ import { userRouter } from "./Routes/user.routes.js";
 import { app, server } from "./websocket.js"; //! from socket
 
 app.use(express.json());
-const corsOptions = {
-  origin: [process.env.FRONTEND_PORT], 
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-};
  
-app.use(cors(corsOptions));
+app.use(cors());
 
 
 // ! mongo db connection

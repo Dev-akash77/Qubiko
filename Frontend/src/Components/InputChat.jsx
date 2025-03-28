@@ -1,11 +1,12 @@
 import React from "react";
 import { BsFillSendFill } from "react-icons/bs";
 import { useSocket } from "../Context/Socket";
-const InputChat = () => {
+
+const InputChat = ({chatId}) => {
   const {handleQuery} = useSocket();
   return (
     <div className="cc h-[7rem]">
-      <form className="flex justify-between items-center borde w-[85%]" onSubmit={(e)=>{handleQuery(e)}}>
+      <form className="flex justify-between items-center borde w-[85%]" onSubmit={(e)=>{handleQuery(e,chatId)}}>
         <input
         required
           type="text"

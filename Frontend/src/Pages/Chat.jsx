@@ -7,14 +7,15 @@ import StartChat from "../Components/StartChat";
 import { useNavigate, useParams } from "react-router-dom";
 
 const Chat = () => {
-  const { setheading, heading,chatID } = useStore();
+  const { setheading, heading,chatID,setChatID } = useStore();
   const { chatId } = useParams();
   const navigate = useNavigate();
+
    useEffect(()=>{
-  if (chatId!==chatID) {
+  if (chatId=="start") {
     navigate(`/chat/${chatID}`)
   }
-   },[chatID])
+   },[chatID,navigate])
 
   useEffect(() => {
     setheading({ name: "Qubiko AI", logo: false });
@@ -28,7 +29,7 @@ const Chat = () => {
           <div className="h-full overflow-auto">
             {chatId === "start" ? <StartChat /> : <ChatContent />}
           </div>
-          <InputChat />
+          <InputChat chatId={chatId}/>
         </div>
       </div>
     </div>

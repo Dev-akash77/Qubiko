@@ -16,7 +16,7 @@ const ChatContent = () => {
           return (
             <div key={id} className="flex flex-col gap-5">
               <div className="ai flex justify-end">
-                <div className="bg-gray-100 text-black w-max py-2 rounded-xl px-5">
+                <div className="bg-gray-100 text-black py-2 rounded-xl px-5">
                   {cur.question}
                 </div>
               </div>

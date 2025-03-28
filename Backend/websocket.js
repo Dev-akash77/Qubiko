@@ -9,14 +9,14 @@ export const server = http.createServer(app); //! creat socket server using expr
 
 export const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_PORT, 
+    origin: process.env.FRONTEND_URL || "https://qubiko.vercel.app",
     methods: ["GET", "POST"],
-    credentials: true  
-  }
-})
-
-let users = {};
+    credentials: true,
+  },
+});
  
+let users = {};
+  
 io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
   if (userId && userId !== "undefined") {

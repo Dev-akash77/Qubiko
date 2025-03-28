@@ -7,7 +7,15 @@ import { app, server } from "./websocket.js"; //! from socket
 
 app.use(express.json());
  
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "https://qubiko.vercel.app",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
+
+app.options("*", cors());
 
 
 // ! mongo db connection

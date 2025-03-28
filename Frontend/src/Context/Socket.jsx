@@ -6,51 +6,57 @@ const socketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-  const { profileData ,chatID, setChatID } = useStore();
-  
+  const { profileData, chatID, setChatID } = useStore();
   const [message, setMessage] = useState([]);
-
 
   const handleQuery = async (e) => {
     e.preventDefault();
     if (!socket) return;
+
     const formData = new FormData(e.target);
     const query = formData.get("query");
+
     setMessage((prev) => [...prev, { question: query, answer: "Loading..." }]);
     socket.emit("query", query);
 
     if (chatID === "start") {
-      setChatID("67e584ae7f8e8d5e81a00ca3")
+      setChatID("67e584ae7f8e8d5e81a00ca3");
     }
   };
 
   useEffect(() => {
-    if (profileData) {
-      const Socket = io(import.meta.env.VITE_BACKEND_URL, {
-        query: {
-          userId: profileData?.profile?._id,
-        },
+    if (profileData && profileData.profile?._id) {
+      const newSocket = io(import.meta.env.VITE_BACKEND_URL, {
+        transports: ["websocket"], 
+        withCredentials: true,
+        query: { userId: profileData.profile._id },
       });
 
-      Socket.on("response", ({ query, response }) => {
+      newSocket.on("connect", () => {
+        console.log("✅ Connected to WebSocket:", newSocket.id);
+      });
+
+      newSocket.on("response", ({ query, response }) => {
         setMessage((prev) => {
-          return prev.map((msg) => {
-            return msg.question === query ? { ...msg, answer: response } : msg;
-          });
+          return prev.map((msg) => (msg.question === query ? { ...msg, answer: response } : msg));
         });
       });
 
-      setSocket(Socket);
+      newSocket.on("disconnect", () => {
+        console.log("❌ WebSocket Disconnected!");
+      });
+
+      setSocket(newSocket);
 
       return () => {
-        Socket.off("response");
-        Socket.disconnect();
+        newSocket.off("response");
+        newSocket.disconnect();
       };
     }
   }, [profileData]);
- 
+
   return (
-    <socketContext.Provider value={{ socket, setSocket, handleQuery,message }}>
+    <socketContext.Provider value={{ socket, setSocket, handleQuery, message }}>
       {children}
     </socketContext.Provider>
   );

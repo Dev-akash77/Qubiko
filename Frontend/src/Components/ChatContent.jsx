@@ -1,13 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSocket } from "../Context/Socket";
 import Prism from "prismjs";
+import ChatLoading from "../UI/ChatLoading";
+
 const ChatContent = () => {
 
   const { message } = useSocket();
-  useEffect(()=>{
+  const chatEndRef = useRef(null);
+
+  useEffect(() => {
     Prism.highlightAll();
-  },[message]);
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [message]);
 
   return (
     <div className="h-full cc w-full mt-5">
@@ -23,12 +30,18 @@ const ChatContent = () => {
 
               <div className="user flex justify-center">
                 <div className="w-full py-4 px-1 text-black">
-                  <ReactMarkdown>{cur.answer}</ReactMarkdown>
+                  {cur.answer === "Loading..." ? (
+                    <ChatLoading />
+                  ) : (
+                    <ReactMarkdown>{cur.answer}</ReactMarkdown>
+                  )}
+
                 </div>
               </div>
             </div>
           );
         })}
+         <div ref={chatEndRef} />
       </div>
     </div>
   );

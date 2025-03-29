@@ -16,7 +16,7 @@ export const io = new Server(server, {
     credentials: true,
   },
 });
-
+ 
 let users = {};
 
 io.on("connection", (socket) => {
@@ -107,7 +107,29 @@ io.on("connection", (socket) => {
       socket.emit("error", "Something went wrong. Please try again.");
     }
   });
+   
  
+
+  socket.on("fetchHistory", async (id) => {
+    if (!id) return;
+  
+    try {
+      const currentChat = await chatModel.findById(id);
+      if (!currentChat) {
+        socket.emit("error", "Chat history not found");
+        return;
+      }
+  
+      socket.emit("history", currentChat.message); // Send chat history to frontend
+    } catch (error) {
+      console.error("Error fetching chat history:", error);
+      socket.emit("error", "Failed to fetch history");
+    }
+  });
+  
+
+  
+
   socket.on("disconnect", () => {
     console.log(`Client disconnected: ${socket.id}`);
     for (const key in users) {

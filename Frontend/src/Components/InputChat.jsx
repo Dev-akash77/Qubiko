@@ -3,11 +3,13 @@ import { BsFillSendFill } from "react-icons/bs";
 import { useSocket } from "../Context/Socket";
 
 const InputChat = ({chatId}) => {
-  const {handleQuery} = useSocket();
+  const {handleQuery,query, setQuery} = useSocket();
   return (
     <div className="cc h-[7rem]">
       <form className="flex justify-between items-center borde w-[85%]" onSubmit={(e)=>{handleQuery(e,chatId)}}>
         <input
+        value={query}
+        onChange={(e)=>{setQuery(e.target.value)}}
         required
           type="text"
           name="query"

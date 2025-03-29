@@ -5,17 +5,42 @@ import InputChat from "../Components/InputChat";
 import ChatContent from "../Components/ChatContent";
 import StartChat from "../Components/StartChat";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSocket } from "../Context/Socket";
 
 const Chat = () => {
-  const { setheading, heading,chatID,setChatID } = useStore();
+  const { setheading, heading, chatID } = useStore();
   const { chatId } = useParams();
   const navigate = useNavigate();
+  const { socket,setMessage,handleQuery } = useSocket();
 
-   useEffect(()=>{
-  if (chatId=="start") {
-    navigate(`/chat/${chatID}`)
-  }
-   },[chatID,navigate])
+  useEffect(() => {
+    if (chatId !== "start" && socket) {
+      socket.emit("fetchHistory", chatId);
+  
+      const handleHistory = (history) => {
+        setMessage(history);
+      };
+  
+      const handleError = (error) => {
+        toast.error(error);
+      };
+  
+      socket.on("history", handleHistory);
+      socket.on("error", handleError);
+  
+      return () => {
+        socket.off("history", handleHistory);
+        socket.off("error", handleError);
+      };
+    }
+  }, [chatId, socket]);
+  
+ 
+  useEffect(() => {
+    if (chatId == "start") {
+      navigate(`/chat/${chatID}`);
+    }
+  }, [chatID, navigate]);
 
   useEffect(() => {
     setheading({ name: "Qubiko AI", logo: false });
@@ -29,7 +54,7 @@ const Chat = () => {
           <div className="h-full overflow-auto">
             {chatId === "start" ? <StartChat /> : <ChatContent />}
           </div>
-          <InputChat chatId={chatId}/>
+          <InputChat chatId={chatId} />
         </div>
       </div>
     </div>

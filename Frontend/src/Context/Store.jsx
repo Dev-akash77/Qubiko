@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loginApi, registerApi, userProfile } from "../Api/Api";
+import { loginApi, registerApi, UserHistory, userProfile } from "../Api/Api";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 
@@ -8,7 +8,7 @@ const StoreContext = createContext();
 export const StoreContextProvider = ({ children }) => {
 
   // ! header for qubiko
-  const [heading, setheading] = useState({name:"Qubiko AI",logo:true});
+  const [heading, setheading] = useState({name:"Qubiko AI",logo:true,search:false});
   // ! chat id
   const [chatID, setChatID] = useState("")
   // ! is login or signup
@@ -48,6 +48,18 @@ const {
 } = useQuery({
   queryKey: ["profile"],
   queryFn: () =>  userProfile(token),
+  enabled: !!token,
+});
+
+
+// ! user history react query
+const {
+  data: historyData,
+  refetch: historyRefetch,
+  isLoading: historyLoading,
+} = useQuery({
+  queryKey: ["history"],
+  queryFn: () =>  UserHistory(token),
   enabled: !!token,
 });
 
@@ -95,7 +107,7 @@ const {
       setFromData({ name: "", email: "", password: "" });
     }
   }, [loginData]);
-
+ 
   return (
     <StoreContext.Provider
       value={{
@@ -112,6 +124,9 @@ const {
         profileLoading,//! profilrLoading
         chatID,  //! chat id
         setChatID, //! chat id
+        historyData,//! get history data
+        historyRefetch,//! history refetch
+        historyLoading //! history loading
       }}
     >
       {children}

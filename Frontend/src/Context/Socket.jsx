@@ -7,7 +7,7 @@ const socketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-  const { profileData, chatID, setChatID } = useStore();
+  const { profileData, chatID, setChatID,historyRefetch } = useStore();
   const [message, setMessage] = useState([]);
   const [query, setQuery] = useState("")
 
@@ -22,6 +22,7 @@ export const SocketProvider = ({ children }) => {
     socket.emit("query", { query, chatID: chatId });
     setMessage((prev) => [...prev, { question: query, answer: "Loading..." }]);
     setQuery("");
+    historyRefetch();
   };
 
 

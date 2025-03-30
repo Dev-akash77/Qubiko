@@ -36,7 +36,33 @@ export const userProfile = async (token) => {
     });
     return data;
   } catch (error) {
-    console.log("loginApi error", error);
+    console.log("userProfile Api error", error);
+    toast.error(error.response.data.message);
+  }
+};
+
+// ! api Call for get History
+export const UserHistory = async (token) => {
+  try {
+    const { data } = await api.get("/user/history", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  } catch (error) {
+    console.log("UserHistory Api error", error);
+    toast.error(error.response.data.message);
+  }
+};
+
+// ! api Call for delete History
+export const deleteHistory = async (token,chatId) => {
+  try {
+    const { data } = await api.post("/user/history-delete", {chatId},{
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  } catch (error) {
+    console.log("UserHistory Api error", error);
     toast.error(error.response.data.message);
   }
 };

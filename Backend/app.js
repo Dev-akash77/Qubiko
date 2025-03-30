@@ -4,6 +4,7 @@ import "dotenv/config";
 import { dbConnect } from "./Config/db.connection.js";
 import { userRouter } from "./Routes/user.routes.js";
 import { app, server } from "./websocket.js"; //! from socket
+import { qubikoRouter } from "./Routes/qubiko.routes.js";
 
 app.use(express.json());
  
@@ -26,7 +27,9 @@ const port = process.env.PORT || 4000;
 
 
 // ! user routes
-app.use("/user",userRouter)
+app.use("/user",userRouter);
+app.use("/user",qubikoRouter);
+
 
 
 

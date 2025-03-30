@@ -5,6 +5,7 @@ import InputChat from "../Components/InputChat";
 import ChatContent from "../Components/ChatContent";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../Context/Socket";
+import { toast } from "react-toastify";
 
 const Chat = () => {
   const { setheading, heading } = useStore();
@@ -21,16 +22,10 @@ const Chat = () => {
         setMessage(history);
       };
   
-      const handleError = (error) => {
-        toast.error(error);
-      };
-  
       socket.on("history", handleHistory);
-      socket.on("error", handleError);
   
       return () => {
         socket.off("history", handleHistory);
-        socket.off("error", handleError);
       };
     }
   }, [chatId, socket]);

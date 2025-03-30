@@ -16,7 +16,7 @@ export const io = new Server(server, {
     credentials: true,
   },
 });
- 
+
 let users = {};
 
 io.on("connection", (socket) => {
@@ -25,16 +25,15 @@ io.on("connection", (socket) => {
     users[userId] = socket.id;
     console.log("new client", users);
   }
- 
+
   // ! if user given a task
   socket.on("query", async ({ query, chatID }) => {
-    
     // !ensure query are not empty
     if (!query || !query.trim()) {
       socket.emit("error", "Question required");
       return;
     }
-  
+
     // ! find user from user id
     try {
       const user = await userModel.findById(userId);
@@ -66,10 +65,20 @@ io.on("connection", (socket) => {
         });
         const saveChat = await newChat.save();
         updatedChatId = saveChat._id;
+
+        const totalChat = await chatModel.find({ userId });
+
+        // ! auto delete oldest chat history
+        if (totalChat.length > user.maxHistory) {
+          await chatModel.findOneAndDelete(
+            { userId },
+            { sort: { createdAt: 1 } }
+          );
+        }
       } else {
-        
         // !current chat
         const currentChat = await chatModel.findById(chatID);
+
         // ! if current chat is wrong throw an error
         if (!currentChat) {
           socket.emit("error", "Current chat not found");
@@ -79,16 +88,16 @@ io.on("connection", (socket) => {
         currentChat.message.push(userMessage);
         await currentChat.save();
       }
-  
+
       // ! response get from LLM
-      const response = await askQubiko(query,updatedChatId);
-   
+      const response = await askQubiko(query, updatedChatId);
+
       // !sending rsponse to the frontend
-      
+
       // ! updatig user quistion answer;
-      
+
       await chatModel.findByIdAndUpdate(
-        updatedChatId, 
+        updatedChatId,
         {
           $set: { "message.$[elem].answer": response },
         },
@@ -99,36 +108,38 @@ io.on("connection", (socket) => {
       );
 
       if (users[userId]) {
-        io.to(users[userId]).emit("response", { query, response,chatId: updatedChatId});
+        io.to(users[userId]).emit("response", {
+          query,
+          response,
+          chatId: updatedChatId,
+        });
       }
-     
     } catch (error) {
       console.error("Error fetching response:", error);
       socket.emit("error", "Something went wrong. Please try again.");
     }
   });
-   
- 
 
   socket.on("fetchHistory", async (id) => {
     if (!id) return;
-  
+
     try {
       const currentChat = await chatModel.findById(id);
       if (!currentChat) {
         socket.emit("error", "Chat history not found");
         return;
       }
-  
-      socket.emit("history", currentChat.message); // Send chat history to frontend
+      // ! if user is not valid
+      if (currentChat.userId.toString() !== userId) {
+        return socket.emit("error", "Un Authorized Token");
+      }
+
+      socket.emit("history", currentChat.message);
     } catch (error) {
       console.error("Error fetching chat history:", error);
       socket.emit("error", "Failed to fetch history");
     }
   });
-  
-
-  
 
   socket.on("disconnect", () => {
     console.log(`Client disconnected: ${socket.id}`);

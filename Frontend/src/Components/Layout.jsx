@@ -9,7 +9,7 @@ const Layout = () => {
     <div className="min-h-[100dvh] w-screen cc">
       <div className="mobile_Screen md:border md:rounded-md cc overflow-hidden">
         <div className="h-full w-full flex flex-col justify-between">
-          <Header icon={heading.logo} text={heading.name} />
+          <Header icon={heading.logo} text={heading.name} search={heading.search} />
           <div className="h-full overflow-auto">
             <Outlet />
           </div>

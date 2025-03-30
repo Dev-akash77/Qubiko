@@ -3,18 +3,29 @@ import ReactMarkdown from "react-markdown";
 import { useSocket } from "../Context/Socket";
 import Prism from "prismjs";
 import ChatLoading from "../UI/ChatLoading";
+import { toast } from "react-toastify";
 
 const ChatContent = () => {
-
   const { message } = useSocket();
   const chatEndRef = useRef(null);
-
+  // ! use prism js for synatx highlighting
   useEffect(() => {
-    Prism.highlightAll();
+    setTimeout(() => {
+      Prism.highlightAll(); // Apply syntax highlighting
+    }, 0);
+
     if (chatEndRef.current) {
       chatEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [message]);
+
+  // ! copy code
+
+  const copyToClipboard = (code) => {
+    navigator.clipboard.writeText(code).then(() => {
+      toast.success("Copied Code");
+    });
+  };
 
   return (
     <div className="h-full cc w-full mt-5">
@@ -29,19 +40,43 @@ const ChatContent = () => {
               </div>
 
               <div className="user flex justify-center">
-                <div className="w-full py-4 px-1 text-black">
+                <div className="w-full py-4 p-2 text-black">
                   {cur.answer === "Loading..." ? (
                     <ChatLoading />
                   ) : (
-                    <ReactMarkdown>{cur.answer}</ReactMarkdown>
+                    <ReactMarkdown
+                      components={{
+                        code({ inline, className, children, ...props }) {
+                          const match = /language-(\w+)/.exec(className || "");
+                          return !inline && match ? (
+                            <div className="relative">
+                              <button
+                                className="absolute top-2 right-2 bg-gray-200 cursor-pointer text-black text-xs px-2 py-1 rounded"
+                                onClick={() => copyToClipboard(children)}
+                              >
+                                Copy
+                              </button>
+                              <pre className={className} {...props}>
+                                <code className={className}>{children}</code>
+                              </pre>
+                            </div>
+                          ) : (
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
+                          );
+                        },
+                      }}
+                    >
+                      {cur.answer}
+                    </ReactMarkdown>
                   )}
-
                 </div>
               </div>
             </div>
           );
         })}
-         <div ref={chatEndRef} />
+        <div ref={chatEndRef} />
       </div>
     </div>
   );

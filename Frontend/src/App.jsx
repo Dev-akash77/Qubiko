@@ -12,6 +12,7 @@ import { StoreContextProvider } from "./Context/Store";
 import ProtectiveRoutes from "./Components/ProtectiveRoutes";
 import Chat from "./Pages/Chat";
 import { SocketProvider } from "./Context/Socket";
+import ChatStart from "./Pages/ChatStart";
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -24,6 +25,14 @@ const App = () => {
       element: (
         <ProtectiveRoutes>
           <Chat />
+        </ProtectiveRoutes>
+      ),
+    },
+    {
+      path: "/chat",
+      element: (
+        <ProtectiveRoutes>
+          <ChatStart />
         </ProtectiveRoutes>
       ),
     },

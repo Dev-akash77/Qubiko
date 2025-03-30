@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
       };
 
       // ! creat new chat
-      if (chatID === "start") {
+      if (!chatID) {
         const newChat = new chatModel({
           userId,
           heading,
@@ -88,7 +88,7 @@ io.on("connection", (socket) => {
       // ! updatig user quistion answer;
       
       await chatModel.findByIdAndUpdate(
-        updatedChatId,
+        updatedChatId, 
         {
           $set: { "message.$[elem].answer": response },
         },

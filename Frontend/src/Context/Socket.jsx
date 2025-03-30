@@ -44,7 +44,7 @@ export const SocketProvider = ({ children }) => {
           );
         });
 
-        if (chatID === "start" && chatID) {
+        if (!chatID) {
           setChatID(chatId);
         }
       });

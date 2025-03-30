@@ -10,7 +10,7 @@ export const StoreContextProvider = ({ children }) => {
   // ! header for qubiko
   const [heading, setheading] = useState({name:"Qubiko AI",logo:true});
   // ! chat id
-  const [chatID, setChatID] = useState("start")
+  const [chatID, setChatID] = useState("")
   // ! is login or signup
   const [islogin, setislogin] = useState();
   // ! login and signup from data
@@ -109,6 +109,7 @@ const {
         heading,  //! header heading
         setheading, //! header heading
         profileData, //! profile data
+        profileLoading,//! profilrLoading
         chatID,  //! chat id
         setChatID, //! chat id
       }}

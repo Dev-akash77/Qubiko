@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "../assets/Group 8.png";
+
 const StartChat = () => {
   const capability = [
     "Conversational AI <br/> (Chat with me like a real human, anytime!)",

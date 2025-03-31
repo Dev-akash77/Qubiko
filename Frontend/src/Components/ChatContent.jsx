@@ -29,7 +29,7 @@ const ChatContent = () => {
 
   return (
     <div className="h-full cc w-full mt-5">
-      <div className="container h-full w-full flex flex-col gap-5">
+      <div className="container h-full overflow-y-auto w-full flex flex-col gap-5">
         {message?.map((cur, id) => {
           return (
             <div key={id} className="flex flex-col gap-5">
@@ -40,6 +40,7 @@ const ChatContent = () => {
               </div>
 
               <div className="user flex justify-center">
+                
                 <div className="w-full py-4 p-2 text-black">
                   {cur.answer === "Loading..." ? (
                     <ChatLoading />
@@ -51,7 +52,7 @@ const ChatContent = () => {
                           return !inline && match ? (
                             <div className="relative">
                               <button
-                                className="absolute top-2 right-2 bg-gray-200 cursor-pointer text-black text-xs px-2 py-1 rounded"
+                                className="absolute top-2 right-2 bg-gray-200 cursor-pointer text-black text-xs px-4 py-1 rounded"
                                 onClick={() => copyToClipboard(children)}
                               >
                                 Copy

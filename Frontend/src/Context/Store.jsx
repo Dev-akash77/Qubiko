@@ -9,6 +9,7 @@ export const StoreContextProvider = ({ children }) => {
 
   // ! header for qubiko
   const [heading, setheading] = useState({name:"Qubiko AI",logo:true,search:false});
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   // ! chat id
   const [chatID, setChatID] = useState("")
   // ! is login or signup
@@ -20,6 +21,7 @@ export const StoreContextProvider = ({ children }) => {
     password: "",
   });
  
+  const [searchInput, setsearchInput] = useState("")
   // ! here is auth token
   const [token, setToken] = useState(
     JSON.parse(localStorage.getItem("token")) || false
@@ -126,7 +128,11 @@ const {
         setChatID, //! chat id
         historyData,//! get history data
         historyRefetch,//! history refetch
-        historyLoading //! history loading
+        historyLoading, //! history loading
+        isSearchOpen, //! is serach open
+        setIsSearchOpen, //! set search open value
+        searchInput,  //! search input data
+        setsearchInput, //! search input data set
       }}
     >
       {children}

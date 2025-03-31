@@ -11,26 +11,51 @@ const Navbar = () => {
     `flex flex-col items-center text-highlightText text-xl ${
       isActive ? "main_active" : ""
     }`;
-  const {historyRefetch } = useStore();
+  const { historyRefetch, setIsSearchOpen } = useStore();
   return (
     <div className="flex w-full h-[5rem] cc">
       <div className="container flex items-center justify-between px-2">
-        <NavLink className={navLinkClass} to={"/"}>
+        <NavLink
+          className={navLinkClass}
+          to={"/"}
+          onClick={() => {
+            setIsSearchOpen(false);
+          }}
+        >
           <IoChatbubbleEllipsesOutline />
           <p className="text-[.8rem]"> Chat</p>
         </NavLink>
 
-        <NavLink className={navLinkClass} to={"assistent"}>
+        <NavLink
+          className={navLinkClass}
+          to={"assistent"}
+          onClick={() => {
+            setIsSearchOpen(false);
+          }}
+        >
           <BiCategory />
           <p className="text-[.8rem]"> AI Assistants</p>
         </NavLink>
 
-        <NavLink className={navLinkClass} to={"history"}>
+        <NavLink
+          className={navLinkClass}
+          to={"history"}
+          onClick={() => {
+            setIsSearchOpen(false);
+            historyRefetch();
+          }}
+        >
           <MdHistory />
-          <p className="text-[.8rem]" onClick={()=>{historyRefetch()}}> History</p>
+          <p className="text-[.8rem]"> History</p>
         </NavLink>
 
-        <NavLink className={navLinkClass} to={"account"}>
+        <NavLink
+          className={navLinkClass}
+          to={"account"}
+          onClick={() => {
+            setIsSearchOpen(false);
+          }}
+        >
           <FaRegUser className="font-semibold" />
           <p className="text-[.8rem]">Account</p>
         </NavLink>

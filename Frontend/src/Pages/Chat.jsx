@@ -38,7 +38,7 @@ const Chat = () => {
 
   return (
     <div className="min-h-[100dvh] w-screen cc">
-      <div className="mobile_Screen cc">
+      <div className="mobile_Screen cc bg-white">
         <div className="h-full w-full flex flex-col justify-between border md:rounded-sm">
           <Header text={heading.name} icon={heading.logo} />
           <div className="h-full overflow-auto">

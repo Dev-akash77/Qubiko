@@ -55,14 +55,35 @@ export const UserHistory = async (token) => {
 };
 
 // ! api Call for delete History
-export const deleteHistory = async (token,chatId) => {
+export const deleteHistory = async (token, chatId) => {
   try {
-    const { data } = await api.post("/user/history-delete", {chatId},{
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const { data } = await api.post(
+      "/user/history-delete",
+      { chatId },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return data;
   } catch (error) {
     console.log("UserHistory Api error", error);
+    toast.error(error.response.data.message);
+  }
+};
+
+// ! api Call for delete All History
+export const deleteAllHistory = async (token) => {
+  try {
+    const { data } = await api.post(
+      "/user/history-delete-all",
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log("deleteAllHistory Api error", error);
     toast.error(error.response.data.message);
   }
 };

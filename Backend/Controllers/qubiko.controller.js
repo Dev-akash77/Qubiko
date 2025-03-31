@@ -35,3 +35,17 @@ export const deleteHistory = async (req, res) => {
     return res.status(500).json({ success: false, error: error.message });
   }
 };
+
+// !delete ALL History Data
+export const deleteAllHistory = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    await chatModel.deleteMany({ userId });
+    res
+      .status(200)
+      .json({ success: true, message: "History Deleted" });
+  } catch (error) {
+    console.error("deleteAllHistory controller Error:", error.message);
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};

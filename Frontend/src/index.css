@@ -147,3 +147,16 @@ body {
 }
 
 
+.notopen {
+  height: 0;
+  transition:  .2s ease-in-out;
+  overflow: hidden;
+}
+.oepn{
+  height: 15rem;
+  width: 100%;
+  transition:  .2s ease-in-out;
+  overflow: hidden;
+}
+
+

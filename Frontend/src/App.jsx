@@ -13,6 +13,7 @@ import ProtectiveRoutes from "./Components/ProtectiveRoutes";
 import Chat from "./Pages/Chat";
 import { SocketProvider } from "./Context/Socket";
 import ChatStart from "./Pages/ChatStart";
+import Personal from "./Pages/Personal";
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -62,6 +63,10 @@ const App = () => {
         },
       ],
     },
+    {
+      path:"personal",
+      element:<Personal />
+    }
   ]);
 
   // ! query client from tanstack/react query

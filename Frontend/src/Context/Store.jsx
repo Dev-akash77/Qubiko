@@ -125,6 +125,7 @@ const {
         fromData, // ! here is all the auth from data
         loginLoading, // ! login Loding
         token, // ! here is authorization token
+        setToken,//! token set 
         heading,  //! header heading
         setheading, //! header heading
         profileData, //! profile data

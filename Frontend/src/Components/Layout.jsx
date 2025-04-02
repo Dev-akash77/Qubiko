@@ -22,14 +22,14 @@ const Layout = () => {
           <Navbar />
           <div
             className={`${
-              !isOpenDeleteMessage ? "w-0 h-0" : "w-full h-full"
-            } absolute z-[9999]`}
+              !isOpenDeleteMessage ? "notopen" : "w-full h-full"
+            } absolute z-[9999] bottom-0`}
           >
             <div className="w-full h-full bg-black opacity-[.4]"></div>
             <div
               className={`${
-                !isOpenDeleteMessage ? "w-0 h-0 opacity-0" : "w-full h-[15rem]"
-              } rounded-tr-4xl rounded-tl-4xl bg-white bottom-0 absolute
+                !isOpenDeleteMessage ? "notopen" : "oepn"
+              } rounded-tr-4xl rounded-tl-4xl bg-white bottom-0 absolute duration-300
               `}
             >
               <DeleteNotificaton

@@ -54,8 +54,8 @@ io.on("connection", (socket) => {
         question: query,
         answer: "Loading...",
         createdAt: Date.now(),
-      };
-
+      };  
+  
       // ! creat new chat
       if (!chatID) {
         const newChat = new chatModel({

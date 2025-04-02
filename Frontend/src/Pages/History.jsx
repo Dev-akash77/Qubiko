@@ -55,7 +55,7 @@ const History = () => {
       </div>
     );
   }
-
+  
   // ! delete history
   const handleDeleteHistory = async (chatId) => {
     const data = await deleteHistory(token, chatId);

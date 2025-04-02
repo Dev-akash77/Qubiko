@@ -3,21 +3,47 @@ import { useStore } from "../Context/Store";
 import { IoChevronForwardSharp } from "react-icons/io5";
 import { HiOutlineUser } from "react-icons/hi";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
-import { MdContactPage } from "react-icons/md";
+import { MdOutlineContactPage } from "react-icons/md";
 import { MdLanguage } from "react-icons/md";
 import { TbDeviceUnknown } from "react-icons/tb";
 import { IoIosLogOut } from "react-icons/io";
 import proimage from "../assets/pro.svg";
 import { Link } from "react-router-dom";
+import MainLoader from "../UI/MainLoader";
 const Account = () => {
-  const { setheading, profileData } = useStore();
+  const {
+    setheading,
+    profileData,
+    setisOpenDeleteMessage,
+    setDeleteNotification,
+    profileLoading,
+  } = useStore();
 
   useEffect(() => {
     setheading({ name: "Qubiko AI", logo: true });
   }, [setheading]);
 
   //  ! profile data
-  const { name, email, image, phone, gender } = profileData?.profile || {};
+  const { name, email, image } = profileData?.profile || {};
+
+  // ! logout
+  const handleLogout = () => {
+    setDeleteNotification({
+      heading: "Logout",
+      content: "Are you sure you want to log out?",
+      action: "logout",
+    });
+    setisOpenDeleteMessage(true);
+  };
+
+  // ! loading state
+  if (profileLoading) {
+    return (
+      <div className="h-full w-full cc">
+        <MainLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="h-full overflow-hidden cc">
@@ -89,7 +115,7 @@ const Account = () => {
             className="w-full flex items-center justify-between"
           >
             <div className="flex items-center justify-center gap-2">
-              <MdContactPage className="text-xl" />
+              <MdOutlineContactPage className="text-xl" />
               <p className="font-semibold">Contact us</p>
             </div>
             <IoChevronForwardSharp className="text-2xl" />
@@ -100,16 +126,21 @@ const Account = () => {
           >
             <div className="flex items-center justify-center gap-2">
               <TbDeviceUnknown className="text-xl" />
-              <p className="font-semibold">About</p>
+              <p className="font-semibold">About Qubiko</p>
             </div>
             <IoChevronForwardSharp className="text-2xl" />
           </Link>
         </div>
 
-        {/* log out */}
-        <div className="flex items-center justify-start text-red-500 mt-5 gap-2 text-[1.3rem]">
-          <IoIosLogOut className="text-2xl"/> Logout
+        {/*! log out */}
+        <div
+          className="flex items-center justify-start text-red-500 mt-5 gap-2 text-[1.3rem] cursor-pointer"
+          onClick={handleLogout}
+        >
+          <IoIosLogOut className="text-2xl" /> Logout
         </div>
+
+
       </div>
     </div>
   );

@@ -9,6 +9,11 @@ export const StoreContextProvider = ({ children }) => {
 
   // ! header for qubiko
   const [heading, setheading] = useState({name:"Qubiko AI",logo:true,search:false});
+  // !delete notification
+  const [deleteNotification, setDeleteNotification] = useState({heading:"Logout",content:"Are you sure want to log out?",action:"logout"});
+
+  // ! isopeen dm
+  const [isOpenDeleteMessage, setisOpenDeleteMessage] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   // ! chat id
   const [chatID, setChatID] = useState("")
@@ -21,7 +26,7 @@ export const StoreContextProvider = ({ children }) => {
     password: "",
   });
  
-  const [searchInput, setsearchInput] = useState("")
+  const [searchInput, setsearchInput] = useState("");
   // ! here is auth token
   const [token, setToken] = useState(
     JSON.parse(localStorage.getItem("token")) || false
@@ -133,6 +138,10 @@ const {
         setIsSearchOpen, //! set search open value
         searchInput,  //! search input data
         setsearchInput, //! search input data set
+        deleteNotification, //! delete notification
+        setDeleteNotification, //! delete notification
+        isOpenDeleteMessage, //! isopen Delete
+        setisOpenDeleteMessage,//! isopen Delete
       }}
     >
       {children}

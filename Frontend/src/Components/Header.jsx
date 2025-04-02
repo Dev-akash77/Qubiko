@@ -23,8 +23,8 @@ const Header = ({ icon, text, search }) => {
 
   if (isSearchOpen) {
     return (
-      <div className="h-[6rem] cc z-50">
-        <div className={`container flex items-center justify-start gap-[1rem]`}>
+      <div className="h-[6rem] cc z-50 opacity-[.8]">
+        <div className={`container flex items-center justify-start gap-[1rem] `}>
           <IoChevronBackOutline
             className="text-3xl cursor-pointer"
             onClick={() => {
@@ -67,7 +67,7 @@ const Header = ({ icon, text, search }) => {
         } gap-[4rem]`}
       >
         {icon ? (
-          <img src={logo} alt="logo" className="w-[2.3rem] ml-2" />
+          <img src={logo} alt="logo" className="w-[2.3rem] ml-2 cursor-pointer" onClick={()=>{navigate("/")}}/>
         ) : (
           <IoChevronBackOutline
             className="text-3xl cursor-pointer"

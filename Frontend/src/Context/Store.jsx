@@ -47,10 +47,10 @@ export const StoreContextProvider = ({ children }) => {
   });
 
 
-// ! user profile react query
+// ! user profile react querys
 const {
   data: profileData,
-  refetch: profileRefetch,
+  refetch: profileRefetch, 
   isLoading: profileLoading,
 } = useQuery({
   queryKey: ["profile"],

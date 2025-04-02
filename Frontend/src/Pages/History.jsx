@@ -114,14 +114,14 @@ const History = () => {
                   />
 
                   {showDeleteIndex === id && (
-                    <div
+                    <button
                       className="absolute bg-black text-white rounded-md px-3 py-2 right-0 top-6 shadow-md cursor-pointer"
                       onClick={() => {
                         handleDeleteHistory(cur);
                       }}
                     >
                       Delete
-                    </div>
+                    </button>
                   )}
                 </div>
               </div>

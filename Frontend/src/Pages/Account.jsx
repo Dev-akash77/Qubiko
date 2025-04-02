@@ -54,7 +54,7 @@ const Account = () => {
             <img
               src={image}
               alt={name}
-              className="w-[5rem] rounded-full overflow-hidden"
+              className="w-[3.5rem] rounded-full overflow-hidden"
             />
             <div>
               <h2 className="text-2xl font-semibold">{name}</h2>

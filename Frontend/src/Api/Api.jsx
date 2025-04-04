@@ -87,3 +87,20 @@ export const deleteAllHistory = async (token) => {
     toast.error(error.response.data.message);
   }
 };
+
+// ! api Call for Edit Profile 
+export const EditFrofile = async (token,fromdata) => {
+  try {
+    const { data } = await api.post(
+      "/user/profile-update",
+      fromdata,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log("deleteAllHistory Api error", error);
+    toast.error(error.response.data.message);
+  }
+};

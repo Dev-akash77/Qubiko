@@ -11,8 +11,7 @@ const UserSchema = new Schema(
     otpEXPDate: { type: Date, default: () => Date.now() + 5 * 60 * 1000 },
     image: {
       type: String,
-      default:
-        "https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png",
+      default:""
     },
     gender: { type: String, default: "Not selected" },
     maxHistory: { type: Number, default: 5 },

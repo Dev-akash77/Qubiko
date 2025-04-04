@@ -10,6 +10,7 @@ import { IoIosLogOut } from "react-icons/io";
 import proimage from "../assets/pro.svg";
 import { Link } from "react-router-dom";
 import MainLoader from "../UI/MainLoader";
+import imagedefault from "../assets/default.png";
 const Account = () => {
   const {
     setheading,
@@ -52,9 +53,9 @@ const Account = () => {
         <div className="mt-3 flex items-center justify-between">
           <Link to={"/personal"} className="flex items-center justify-center gap-3">
             <img
-              src={image}
+              src={image?image:imagedefault}
               alt={name}
-              className="w-[3.5rem] rounded-full overflow-hidden"
+              className="w-[4rem] rounded-full overflow-hidden aspect-square object-cover"
             />
             <div>
               <h2 className="text-2xl font-semibold">{name}</h2>
@@ -73,7 +74,7 @@ const Account = () => {
           General
           <span className="w-full h-[0.04rem] bg-gray-300 rounded-md"></span>
         </div>
-        <div className="flex flex-col justify-center items-center gap-5 mt-5">
+        <div className="flex flex-col justify-center items-center gap-3 mt-4">
           <Link
             to={"/personal"}
             className="w-full flex items-center justify-between"
@@ -109,7 +110,7 @@ const Account = () => {
           <span className="w-full h-[0.04rem] bg-gray-300 rounded-md"></span>
         </div>
 
-        <div className="flex flex-col justify-center items-center gap-5 mt-5">
+        <div className="flex flex-col justify-center items-center gap-3 mt-4">
           <Link
             to={"/contact"}
             className="w-full flex items-center justify-between"

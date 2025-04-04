@@ -1,8 +1,8 @@
-// ! controloler for register
 import { userModel } from "../Models/user.model.js";
+import { v2 as cloudinary } from "cloudinary";
+// ! controloler for register
+
 import bcrypt from "bcrypt";
-import { askQubiko } from "../Services/Langchain.service.js";
-import { chatModel } from "../Models/chat.model.js";
 
 // ! register controller'
 export const registerController = async (req, res) => {
@@ -88,23 +88,62 @@ export const logiController = async (req, res) => {
   }
 };
 
-
-
-// ! get user Profile data 
+// ! get user Profile data
 
 export const getUserProfile = async (req, res) => {
   try {
-
-    const profile = req.user; 
-    res
-      .status(200)
-      .json({ success: true,profile });
+    const profile = req.user;
+    res.status(200).json({ success: true, profile });
   } catch (error) {
     console.log("getUserProfile controller error: ", error);
     res.status(400).json({ success: false, message: error.message });
   }
 };
 
+export const editProfile = async (req, res) => {
+  try {
+    const { name, number, email, gender } = req.body;
+    const userId = req.user._id;
+    const imagefile = req.file;
 
+    if (!name || !email) {
+      return res
+        .status(400)
+        .json({ message: "Missing Details", success: false });
+    }
 
+    const user = await userModel.findById(userId);
 
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "User not found", success: false });
+    }
+
+    let imageUrl = user.image;
+
+    // ! Only upload if image was updated
+    if (imagefile) {
+      const result = await cloudinary.uploader.upload(imagefile.path, {
+        resource_type: "image",
+        folder: "Qubiko_User",
+      });
+
+      imageUrl = result.secure_url;
+    }
+
+    // ! Update user fields
+    user.name = name;
+    user.number = number;
+    user.email = email;
+    user.gender = gender;
+    user.image = imageUrl;
+
+    await user.save();
+
+    res.status(200).json({ success: true, message: "Profile Updated" });
+  } catch (error) {
+    console.log("editProfile controller error: ", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};

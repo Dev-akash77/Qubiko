@@ -4,28 +4,38 @@ import { useStore } from "../Context/Store";
 import { MdOutlineEdit } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
 import { FaPhoneVolume } from "react-icons/fa6";
+import { useMutation } from "@tanstack/react-query";
+import { MdOutgoingMail } from "react-icons/md";
+import { EditFrofile } from "../Api/Api";
+import imagedefault from "../assets/default.png";
+import { toast } from "react-toastify";
+import Small_Loader from "./../UI/Small_Loader";
 
 const Personal = () => {
-  const { profileData } = useStore();
-  const { name, image, number, gender } = profileData?.profile || {};
+  const { profileData, token, profileRefetch } = useStore();
+  const { name, image, number, gender, email } = profileData?.profile || {};
 
   const fileInputRef = useRef(null);
 
-  const [formData, setFormData] = useState({
-    name: name || "", // Ensure it’s always a string
-    number: number || "", // Ensure it’s always a string
-    gender: gender || "Not selected", // Default value
-    image: image || "", // Ensure it’s always a string
+  const [inputData, setinputData] = useState({
+    name: name || "",
+    number: number || "",
+    email: email || "",
+    gender: gender || "Not selected",
+    image: image || "",
   });
+
+  // const [isSaved, setIsSaved] = useState(false);
 
   //! Load profile data when available
   useEffect(() => {
     if (profileData) {
-      setFormData({
+      setinputData({
         name: name,
         number: number,
         gender: gender,
         image: image,
+        email: email,
       });
     }
   }, [profileData]);
@@ -38,116 +48,161 @@ const Personal = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setFormData((prev) => ({ ...prev, image: imageUrl }));
+      setinputData((prev) => ({ ...prev, image: file }));
     }
   };
 
-  // !Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setinputData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // !Handle form submission
-  const handleSubmit = (e) => {
+  // ! mutation fuction
+  const { mutate, status } = useMutation({
+    mutationFn: (formData) => EditFrofile(token, formData),
+    onSuccess: (data) => {
+      if (data?.success) {
+        toast.success(data?.message);
+        // !after adding data refetch profile data
+        profileRefetch();
+      }
+    },
+    onError: (error) => {
+      console.error("Update failed:", error);
+    },
+  });
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    const formData = new FormData();
+    formData.append("name", inputData.name);
+    formData.append("number", inputData.number);
+    formData.append("email", inputData.email);
+    formData.append("gender", inputData.gender);
+
+    if (inputData.image instanceof File) {
+      formData.append("image", inputData.image);
+    }
+
+    mutate(formData);
   };
 
   return (
     <div className="min-h-[100dvh] w-screen cc">
       <div className="mobile_Screen md:border md:rounded-md cc overflow-hidden">
-        <div className="h-full overflow-hidden">
-          <Header_p text="Personal Info" logo={true} />
-          <form
-            onSubmit={handleSubmit}
-            className="overflow-hidden h-full w-full"
-          >
-            {/*! Profile Image Section */}
-            <div className="cc mt-3 relative">
-              {formData.image && (
+        <div className="h-full overflow-hidden cc w-full">
+          <div className="container h-full">
+            <Header_p text="Personal Info" logo={true} />
+            <form
+              onSubmit={handleSubmit}
+              className="overflow-hidden h-full w-full"
+            >
+              {/* Profile Image Section */}
+              <div className="cc mt-3 relative">
                 <img
-                  src={formData.image}
-                  alt={formData.name || "Profile Image"}
-                  className="w-[10rem] rounded-full"
+                  src={
+                    inputData.image instanceof File
+                      ? URL.createObjectURL(inputData.image)
+                      : inputData.image || imagedefault
+                  }
+                  alt={inputData.name || "Profile Image"}
+                  className="w-[7rem] aspect-square object-cover rounded-full"
                 />
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                name="image"
-                className="hidden"
-                onChange={handleFileChange}
-              />
-              <button
-                type="button"
-                onClick={handleEditClick}
-                className="flex cursor-pointer text-lg items-center justify-center gap-1 border px-2 bottom-0 absolute bg-white rounded-sm"
-              >
-                Edit <MdOutlineEdit className="text-xl" />
-              </button>
-            </div>
 
-            {/* Name Input */}
-            <div className="flex flex-col gap-4 mt-2">
-              <div className="flex flex-col gap-2">
-                <p className="text-lg font-medium pl-2">Name</p>
-                <div className="flex items-center justify-center rounded-lg bg-gray-100 py-3 px-5">
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full h-full border-none outline-none text-xl"
-                  />
-                  <HiOutlineUser className="text-2xl" />
-                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  name="image"
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
+                <button
+                  type="button"
+                  onClick={handleEditClick}
+                  className="flex cursor-pointer text-lg items-center justify-center gap-1 border px-2 -bottom-3 absolute bg-white rounded-sm"
+                >
+                  Edit <MdOutlineEdit className="text-xl" />
+                </button>
               </div>
 
-              {/* !Phone Number Input */}
-              <div className="flex flex-col gap-2">
-                <p className="text-lg font-medium pl-2">Phone Number</p>
-                <div className="flex items-center justify-center rounded-lg bg-gray-100 py-3 px-5">
-                  <input
-                    type="number"
-                    name="number"
-                    value={formData.number}
-                    onChange={handleChange}
-                    className="w-full h-full border-none outline-none text-xl"
-                  />
-                  <FaPhoneVolume className="text-xl" />
+              {/* Form Fields */}
+              <div className="flex flex-col gap-4 mt-5">
+                {/* Name Input */}
+                <div className="flex flex-col gap-2">
+                  <p className="text-lg font-medium pl-2">Name</p>
+                  <div className="flex items-center rounded-lg bg-gray-100 py-2 px-5">
+                    <input
+                      type="text"
+                      name="name"
+                      value={inputData.name}
+                      onChange={handleChange}
+                      className="w-full text-xl border-none outline-none"
+                    />
+                    <HiOutlineUser className="text-2xl" />
+                  </div>
                 </div>
-              </div>
 
-              {/* !Gender Selection */}
-              <div className="flex flex-col gap-2">
-                <p className="text-lg font-medium">Gender</p>
-                <div className="flex items-center justify-center rounded-lg bg-gray-100 py-3 px-5">
-                  <select
-                    name="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    className="w-full h-full outline-none border-none cursor-pointer"
-                  >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="transgender">Transgender</option>
-                    <option value="not selected">Not selected</option>
-                  </select>
+                {/* Phone Input */}
+                <div className="flex flex-col gap-2">
+                  <p className="text-lg font-medium pl-2">Phone Number</p>
+                  <div className="flex items-center rounded-lg bg-gray-100 py-2 px-5">
+                    <input
+                      type="number"
+                      name="number"
+                      value={inputData.number}
+                      onChange={handleChange}
+                      className="w-full text-xl border-none outline-none"
+                    />
+                    <FaPhoneVolume className="text-xl" />
+                  </div>
                 </div>
-              </div>
 
-              {/*! Submit Button */}
-              <button
-                type="submit"
-                className="w-full bg-blue text-white py-3 rounded-lg mt-4 text-lg cursor-pointer"
-              >
-                Save Changes
-              </button>
-            </div>
-          </form>
+                {/* Email */}
+                <div className="flex flex-col gap-2">
+                  <p className="text-lg font-medium pl-2">Email</p>
+                  <div className="flex items-center rounded-lg bg-gray-100 py-2 px-5">
+                    <input
+                      type="email"
+                      name="email"
+                      value={inputData.email}
+                      onChange={handleChange}
+                      className="w-full text-lg border-none outline-none"
+                    />
+                    <MdOutgoingMail className="text-2xl" />
+                  </div>
+                </div>
+
+                {/* Gender */}
+                <div className="flex flex-col gap-2">
+                  <p className="text-lg font-medium">Gender</p>
+                  <div className="flex items-center rounded-lg bg-gray-100 py-2 px-5">
+                    <select
+                      name="gender"
+                      value={inputData.gender}
+                      onChange={handleChange}
+                      className="w-full cursor-pointer border-none outline-none"
+                    >
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="transgender">Transgender</option>
+                      <option value="Not selected">Not selected</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/*! Submit Button */}
+                <button
+                  type="submit"
+                  className={`w-full cc ${
+                    status === "pending" ? "bg-blue-400" : "bg-blue"
+                  } text-white py-2 rounded-lg mt-2 text-lg cursor-pointer transition-all duration-300`}
+                >
+                  {status === "pending" ? <Small_Loader /> : "Save Changes"}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

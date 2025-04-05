@@ -7,15 +7,15 @@ import { IoChevronBackOutline } from 'react-icons/io5';
 const Header_p = ({text,logo}) => {
     const navigate = useNavigate();
   return (
-    <div className={`flex items-center gap-[4rem] h-[5rem]`}>
+    <div className={`flex items-center h-[5rem] relative`}>
       <IoChevronBackOutline
-        className="text-3xl cursor-pointer"
+        className="text-3xl cursor-pointer z-50 absolute"
         onClick={() => {
             navigate(-1);
         }}
       />
-      <p className="text-[1.35rem] font-medium ">{text}</p>
-      {logo&&<RiEdit2Line className="text-2xl"/>}
+      <p className="text-[1.35rem] cc font-semibold w-full absolute">{text}</p>
+      {logo&&<RiEdit2Line className="text-2xl absolute right-3"/>}
     </div>
   );
 };

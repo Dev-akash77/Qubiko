@@ -104,3 +104,54 @@ export const EditFrofile = async (token,fromdata) => {
     toast.error(error.response.data.message);
   }
 };
+
+// ! api Call for  register_otp
+export const register_otp = async (token,email) => {
+  try {
+    const { data } = await api.post(
+      "/user/register-otp",
+      email,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log("register_otp Api error", error);
+    toast.error(error.response.data.message);
+  }
+};
+
+// ! api Call for  verify_otp
+export const verify_otp = async (token,otp) => {
+  try {
+    const { data } = await api.post(
+      "/user/verify-otp",
+      otp,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log("verify_otp Api error", error);
+    toast.error(error.response.data.message);
+  }
+};
+
+// ! api Call for  reset_password
+export const reset_password = async (token,password) => {
+  try {
+    const { data } = await api.post(
+      "/user/reset-password",
+      password,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log("reset_password Api error", error);
+    toast.error(error.response.data.message);
+  }
+};

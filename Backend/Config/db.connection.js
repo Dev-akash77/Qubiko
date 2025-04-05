@@ -8,3 +8,4 @@ export const dbConnect = async () => {
     console.log("Database connection error:", error);
   }
 };
+  

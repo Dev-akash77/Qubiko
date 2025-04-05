@@ -8,7 +8,7 @@ const UserSchema = new Schema(
     email: { type: String, required: true, unique: true },
     number: { type: String, default: "0000000000" },
     otp: { type: String, default: "" },
-    otpEXPDate: { type: Date, default: () => Date.now() + 5 * 60 * 1000 },
+    otpEXPDate: { type: Date, default: ""},
     image: {
       type: String,
       default:""

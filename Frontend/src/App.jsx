@@ -14,6 +14,8 @@ import Chat from "./Pages/Chat";
 import { SocketProvider } from "./Context/Socket";
 import ChatStart from "./Pages/ChatStart";
 import Personal from "./Pages/Personal";
+import Security from "./Pages/Security";
+import ChangePassword from "./UI/ChangePassword";
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -64,9 +66,21 @@ const App = () => {
       ],
     },
     {
-      path:"personal",
-      element:<Personal />
-    }
+      path: "personal",
+      element: <Personal />,
+    },
+    {
+      path: "security",
+      element: <Security />,
+    },
+    {
+      path: "changePassword",
+      element: (
+        <ProtectiveRoutes>
+          <ChangePassword />
+        </ProtectiveRoutes>
+      )
+    },
   ]);
 
   // ! query client from tanstack/react query

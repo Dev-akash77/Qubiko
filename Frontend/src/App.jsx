@@ -16,6 +16,7 @@ import ChatStart from "./Pages/ChatStart";
 import Personal from "./Pages/Personal";
 import Security from "./Pages/Security";
 import ChangePassword from "./UI/ChangePassword";
+import Pro from './Pages/Pro';
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -72,6 +73,10 @@ const App = () => {
     {
       path: "security",
       element: <Security />,
+    },
+    {
+      path: "pro",
+      element: <Pro />,
     },
     {
       path: "changePassword",

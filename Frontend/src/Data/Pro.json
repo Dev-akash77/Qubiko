@@ -1,0 +1,54 @@
+[
+  {
+    "heading": "Free",
+    "subheading": "Your current plan",
+    "features": [
+      "Unlimited usage",
+      "Low-demand access only",
+      "Standard speed",
+      "Basic analytics",
+      "5 chats saved"
+    ],
+    "color": "#12A575",
+    "price": ""
+  },
+  {
+    "heading": "$10 / 1 month",
+    "subheading": "Go Pro & unlock full potential",
+    "features": [
+      "Unlimited usage",
+      "Fast access anytime",
+      "Advanced analytics",
+      "Email support",
+      "10 chats saved"
+    ],
+    "color": "#5f6fff",
+    "price": "10"
+  },
+  {
+    "heading": "$40 / 6 months",
+    "subheading": "Pro at a discount (save 30%)",
+    "features": [
+      "Unlimited usage",
+      "Priority access",
+      "Faster responses",
+      "Beta feature access",
+      "10 chats saved"
+    ],
+    "color": "#F75555",
+    "price": "40"
+  },
+  {
+    "heading": "$70 / 12 months",
+    "subheading": "Ultimate Pro – Best value plan",
+    "features": [
+      "Unlimited usage",
+      "24/7 access",
+      "Full analytics",
+      "Team & workflow tools",
+      "10 chats saved"
+    ],
+    "color": "#9C27B0",
+    "price": "70"
+  }
+]

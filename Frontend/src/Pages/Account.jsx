@@ -7,7 +7,8 @@ import { MdOutlineContactPage } from "react-icons/md";
 import { MdLanguage } from "react-icons/md";
 import { TbDeviceUnknown } from "react-icons/tb";
 import { IoIosLogOut } from "react-icons/io";
-import proimage from "../assets/pro.svg";
+import { FaStar } from "react-icons/fa6";
+// import proimage from "../assets/pro.svg";
 import { Link } from "react-router-dom";
 import MainLoader from "../UI/MainLoader";
 import imagedefault from "../assets/default.png";
@@ -51,14 +52,17 @@ const Account = () => {
       <div className="container h-full">
         {/* profile_pic*/}
         <div className="mt-3 flex items-center justify-between">
-          <Link to={"/personal"} className="flex items-center justify-center gap-3">
+          <Link
+            to={"/personal"}
+            className="flex items-center justify-center gap-3"
+          >
             <img
-              src={image?image:imagedefault}
+              src={image ? image : imagedefault}
               alt={name}
               className="w-[4rem] rounded-full overflow-hidden aspect-square object-cover"
             />
             <div>
-              <h2 className="text-2xl font-semibold">{name}</h2>
+              <h2 className="text-2xl font-semibold text-md">{name}</h2>
               <p className="text-sm">{email}</p>
             </div>
           </Link>
@@ -67,21 +71,35 @@ const Account = () => {
           </div>
         </div>
         {/* Account pro mode */}
-        <img src={proimage} alt="pro image" className="w-full mt-2" />
+        <Link
+          to={"/pro"}
+          className="px-4 py-6 bg-blue w-full rounded-md my-4 flex items-center text-white justify-between"
+        >
+          <div className="bg-white p-2 rounded-full cc">
+            <FaStar className="text-3xl text-yellow-400" />
+          </div>
+          <div>
+            <p className="text-lg font-semibold ">Upgrade to PRO!</p>
+            <p className="text-[.7rem]">
+              Enjoy all benefits without restrictions
+            </p>
+          </div>
+          <IoChevronForwardSharp className="text-2xl cursor-pointer" />
+        </Link>
 
         {/* general */}
         <div className="flex items-center justify-center gap-2 text-gray-500">
           General
           <span className="w-full h-[0.04rem] bg-gray-300 rounded-md"></span>
         </div>
-        <div className="flex flex-col justify-center items-center gap-3 mt-4">
+        <div className="flex flex-col justify-center items-center gap-4 mt-4">
           <Link
             to={"/personal"}
             className="w-full flex items-center justify-between"
           >
             <div className="flex items-center justify-center gap-2">
               <HiOutlineUser className="text-xl" />
-              <p className="font-semibold">Personal Info</p>
+              <p className="font-semibold text-md">Personal Info</p>
             </div>
             <IoChevronForwardSharp className="text-2xl" />
           </Link>
@@ -91,33 +109,33 @@ const Account = () => {
           >
             <div className="flex items-center justify-center gap-2">
               <IoShieldCheckmarkOutline className="text-xl" />
-              <p className="font-semibold">Security</p>
+              <p className="font-semibold text-md">Security</p>
             </div>
             <IoChevronForwardSharp className="text-2xl" />
           </Link>
           <div className="w-full flex items-center justify-between">
             <div className="flex items-center justify-center gap-2">
               <MdLanguage className="text-xl" />
-              <p className="font-semibold">Language</p>
+              <p className="font-semibold text-md">Language</p>
             </div>
             <p className="mr-2">English</p>
           </div>
         </div>
 
         {/* About */}
-        <div className="flex items-center justify-center gap-3 mt-5 text-gray-500">
+        <div className="flex items-center justify-center gap-3 mt-7 text-gray-500">
           About
           <span className="w-full h-[0.04rem] bg-gray-300 rounded-md"></span>
         </div>
 
-        <div className="flex flex-col justify-center items-center gap-3 mt-4">
+        <div className="flex flex-col justify-center items-center gap-4 mt-4">
           <Link
             to={"/contact"}
             className="w-full flex items-center justify-between"
           >
             <div className="flex items-center justify-center gap-2">
               <MdOutlineContactPage className="text-xl" />
-              <p className="font-semibold">Contact us</p>
+              <p className="font-semibold text-md">Contact us</p>
             </div>
             <IoChevronForwardSharp className="text-2xl" />
           </Link>
@@ -127,7 +145,7 @@ const Account = () => {
           >
             <div className="flex items-center justify-center gap-2">
               <TbDeviceUnknown className="text-xl" />
-              <p className="font-semibold">About Qubiko</p>
+              <p className="font-semibold text-md">About Qubiko</p>
             </div>
             <IoChevronForwardSharp className="text-2xl" />
           </Link>
@@ -140,8 +158,6 @@ const Account = () => {
         >
           <IoIosLogOut className="text-2xl" /> Logout
         </div>
-
-
       </div>
     </div>
   );

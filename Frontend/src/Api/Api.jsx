@@ -155,3 +155,40 @@ export const reset_password = async (token,password) => {
     toast.error(error.response.data.message);
   }
 };
+
+// ! api Call for razorpayPayment
+export const razorpayPayment = async (token,plan,id,price) => {
+  try {
+    const { data } = await api.post(
+      "/user/payment",
+      {plan,id,price},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log("reset_password Api error", error);
+    toast.error(error.response.data.message);
+  }
+};
+
+
+
+
+export const razorpay_verify = async (token,razorpay_order_id,plan) => {
+  try {
+    const { data } = await api.post(
+      "/user/payment-verify",
+      {razorpay_order_id,plan},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log("reset_password Api error", error);
+    toast.error(error.response.data.message);
+  }
+};
+

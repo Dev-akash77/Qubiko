@@ -8,7 +8,6 @@ import { MdLanguage } from "react-icons/md";
 import { TbDeviceUnknown } from "react-icons/tb";
 import { IoIosLogOut } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
-// import proimage from "../assets/pro.svg";
 import { Link } from "react-router-dom";
 import MainLoader from "../UI/MainLoader";
 import imagedefault from "../assets/default.png";
@@ -51,11 +50,11 @@ const Account = () => {
     <div className="h-full overflow-hidden cc">
       <div className="container h-full">
         {/* profile_pic*/}
-        <div className="mt-3 flex items-center justify-between">
-          <Link
-            to={"/personal"}
-            className="flex items-center justify-center gap-3"
-          >
+        <Link
+          to={"/personal"}
+          className="mt-3 flex items-center justify-between"
+        >
+          <div className="flex items-center justify-center gap-3">
             <img
               src={image ? image : imagedefault}
               alt={name}
@@ -65,11 +64,11 @@ const Account = () => {
               <h2 className="text-2xl font-semibold text-md">{name}</h2>
               <p className="text-sm">{email}</p>
             </div>
-          </Link>
+          </div>
           <div>
             <IoChevronForwardSharp className="text-2xl" />
           </div>
-        </div>
+        </Link>
         {/* Account pro mode */}
         <Link
           to={"/pro"}

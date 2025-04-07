@@ -7,7 +7,7 @@ import { IoChevronBackOutline } from 'react-icons/io5';
 const Header_p = ({text,logo}) => {
     const navigate = useNavigate();
   return (
-    <div className={`flex items-center h-[5rem] relative`}>
+    <div className={`flex items-center h-[5rem] relative z-50`}>
       <IoChevronBackOutline
         className="text-3xl cursor-pointer z-50 absolute"
         onClick={() => {

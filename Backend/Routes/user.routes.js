@@ -7,6 +7,8 @@ import {
   sending_otp_email,
   verify_otp,
   resetPassword,
+  PaymentRazorPay,
+  verifyRazorPay,
 } from "../Controllers/user.controller.js";
 import { secureUser } from "../Middlewares/secureUser.middleware.js";
 import { upload } from "./../Middlewares/multer.middleware.js";
@@ -20,5 +22,7 @@ router.post("/profile-update", upload.single("image"), secureUser, editProfile);
 router.post("/register-otp", secureUser, sending_otp_email);
 router.post("/verify-otp", secureUser, verify_otp);
 router.post("/reset-password", secureUser, resetPassword);
+router.post("/payment", secureUser, PaymentRazorPay);
+router.post("/payment-verify", secureUser, verifyRazorPay);
 
 export const userRouter = router;

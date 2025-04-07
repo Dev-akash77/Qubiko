@@ -10,7 +10,8 @@
       "5 chats saved"
     ],
     "color": "#12A575",
-    "price": ""
+    "price": "",
+    "plan": "free"
   },
   {
     "heading": "$10 / 1 month",
@@ -23,7 +24,8 @@
       "10 chats saved"
     ],
     "color": "#5f6fff",
-    "price": "10"
+    "price": "10",
+    "plan": "1 months"
   },
   {
     "heading": "$40 / 6 months",
@@ -36,7 +38,8 @@
       "10 chats saved"
     ],
     "color": "#F75555",
-    "price": "40"
+    "price": "40",
+    "plan": "6 months"
   },
   {
     "heading": "$70 / 12 months",
@@ -49,6 +52,7 @@
       "10 chats saved"
     ],
     "color": "#9C27B0",
-    "price": "70"
+    "price": "70",
+    "plan": "12 months"
   }
 ]

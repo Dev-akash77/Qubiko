@@ -16,6 +16,7 @@ const UserSchema = new Schema(
     gender: { type: String, default: "Not selected" },
     maxHistory: { type: Number, default: 5 },
     pro: { type: Boolean, default: false },
+    plan:{type:String,default:"free"}
   },
   { timestamps: true }
 );

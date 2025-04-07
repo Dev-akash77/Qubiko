@@ -1,5 +1,6 @@
 import { userModel } from "../Models/user.model.js";
 import { v2 as cloudinary } from "cloudinary";
+import Razorpay from "razorpay";
 // ! controloler for register
 
 import bcrypt from "bcrypt";
@@ -101,6 +102,7 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
+// !edit profile data
 export const editProfile = async (req, res) => {
   try {
     const { name, number, email, gender } = req.body;
@@ -149,6 +151,7 @@ export const editProfile = async (req, res) => {
   }
 };
 
+// ! sending otp
 export const sending_otp_email = async (req, res) => {
   try {
     const { email } = req.body;
@@ -215,6 +218,7 @@ export const sending_otp_email = async (req, res) => {
   }
 };
 
+// ! verify otp
 export const verify_otp = async (req, res) => {
   try {
     const { otp } = req.body;
@@ -249,6 +253,7 @@ export const verify_otp = async (req, res) => {
   }
 };
 
+// ! reset password
 export const resetPassword = async (req, res) => {
   try {
     const { password } = req.body;
@@ -272,10 +277,73 @@ export const resetPassword = async (req, res) => {
       success: true,
       message: "Password updated",
     });
-
   } catch (error) {
     console.log("resetPassword controller error: ", error);
     res.status(400).json({ success: false, message: error.message });
   }
 };
 
+// !razorpay instence
+const razorPayInstance = new Razorpay({
+  key_id: process.env.RAZOR_PAY_ID,
+  key_secret: process.env.RAZOR_PAY_SECRET,
+});
+
+// ! razorpay paymen
+export const PaymentRazorPay = async (req, res) => {
+  try {
+    const { id, plan, price } = req.body;
+
+    if (!plan || plan === "free") {
+      return res.status(400).json({
+        success: false,
+        message: "Free plan cannot be upgraded",
+      });
+    }
+
+    const option = {
+      amount: price*100,
+      currency: process.env.CURRENCY || "INR",
+      receipt: id,
+    };
+
+    const order = await razorPayInstance.orders.create(option);
+    res
+    .status(200)
+    .json({ success: true, message: "Order Created Successfully", order,plan });
+  } catch (error) {
+    console.log("PaymentRazorPay controller erorr", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+
+
+// !verify payment
+export const verifyRazorPay = async (req, res) => {
+  try {
+    const { razorpay_order_id ,plan} = req.body;
+    const orderinfo = await razorPayInstance.orders.fetch(razorpay_order_id);
+
+    if (!orderinfo) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Order not verify" });
+    }
+    
+    if (orderinfo.status == "paid") {
+      await userModel.findByIdAndUpdate(orderinfo.receipt, {
+        pro: true,
+        plan:plan,
+        maxHistory:10,
+      });
+      res.status(200).json({ success: true, message: "Payment Successful" });
+    } else {
+      res.status(200).json({ success: false, message: "Payment Failed" });
+    }
+
+  } catch (error) {
+    console.log("verifyRazorPay controller erorr", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};

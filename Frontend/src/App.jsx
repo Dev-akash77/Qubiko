@@ -17,6 +17,8 @@ import Personal from "./Pages/Personal";
 import Security from "./Pages/Security";
 import ChangePassword from "./UI/ChangePassword";
 import Pro from './Pages/Pro';
+import Contact from "./Pages/Contact";
+import About from "./Pages/About";
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -77,6 +79,14 @@ const App = () => {
     {
       path: "pro",
       element: <Pro />,
+    },
+    {
+      path: "contact",
+      element: <Contact />,
+    },
+    {
+      path: "about",
+      element: <About />,
     },
     {
       path: "changePassword",

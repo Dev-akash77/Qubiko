@@ -81,20 +81,31 @@ const ProData = ({ data, id }) => {
         })}
       </div>
       {/* price select plan*/}
-      {price && (
-        <div className="cc gap-3 mt-1 mb-5">
-          <p className="w-[94%] bg-gray-300 h-[.05rem] rounded-full"></p>
-          <button
-            className="rounded-full w-[94%] py-3 text-white cursor-pointer cc"
-            style={{ backgroundColor: color }}
-            onClick={() => {
-              handleSelectPlan(plan, price);
-            }}
-          >
-            {loading ? <Small_Loader /> : "Select plan"}
-          </button>
-        </div>
-      )}
+      {price &&
+        (plan === profileData?.profile.plan ? (
+          <div className="cc gap-3 mt-1 mb-5">
+            <p className="w-[94%] bg-gray-300 h-[.05rem] rounded-full"></p>
+            <button
+              className="rounded-full w-[94%] py-3 cursor-default cc"
+              style={{ border: `.2rem solid ${color}`, color: color }}
+            >
+              Selected
+            </button>
+          </div>
+        ) : (
+          <div className="cc gap-3 mt-1 mb-5">
+            <p className="w-[94%] bg-gray-300 h-[.05rem] rounded-full"></p>
+            <button
+              className="rounded-full w-[94%] py-3 text-white cursor-pointer cc"
+              style={{ backgroundColor: color }}
+              onClick={() => {
+                handleSelectPlan(plan, price);
+              }}
+            >
+              {loading ? <Small_Loader /> : "Select plan"}
+            </button>
+          </div>
+        ))}
     </div>
   );
 };

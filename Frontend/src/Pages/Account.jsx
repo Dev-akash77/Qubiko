@@ -8,7 +8,7 @@ import { MdLanguage } from "react-icons/md";
 import { TbDeviceUnknown } from "react-icons/tb";
 import { IoIosLogOut } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import MainLoader from "../UI/MainLoader";
 import imagedefault from "../assets/default.png";
 const Account = () => {
@@ -18,6 +18,7 @@ const Account = () => {
     setisOpenDeleteMessage,
     setDeleteNotification,
     profileLoading,
+    setToken,
   } = useStore();
 
   useEffect(() => {
@@ -29,12 +30,17 @@ const Account = () => {
 
   // ! logout
   const handleLogout = () => {
+    setisOpenDeleteMessage(true);
     setDeleteNotification({
       heading: "Logout",
       content: "Are you sure you want to log out?",
       action: "logout",
+      onConfirm: () => {
+        setToken(false);
+        setisOpenDeleteMessage(false);
+        toast.success("Logged out successfully!");
+      },
     });
-    setisOpenDeleteMessage(true);
   };
 
   // ! loading state

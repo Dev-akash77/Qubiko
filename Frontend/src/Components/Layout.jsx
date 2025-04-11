@@ -36,6 +36,7 @@ const Layout = () => {
                 action={deleteNotification.action}
                 heading={deleteNotification.heading}
                 content={deleteNotification.content}
+                onConfirm={deleteNotification.onConfirm}
               />
             </div>
           </div>

@@ -11,9 +11,9 @@ export const getHistory = async (req, res) => {
     console.error("getHistory controller Error:", error.message);
     return res.status(500).json({ success: false, error: error.message });
   }
-};
+}; 
 
-// !get history prompt
+// !get history prompt 
 export const deleteHistory = async (req, res) => {
   try {
     const { chatId } = req.body;

@@ -2,13 +2,20 @@ import React, { useState } from "react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { useStore } from "../Context/Store";
 import Small_Loader from "./Small_Loader";
-import { api, razorpay_verify, razorpayPayment } from "../Api/Api";
+import { razorpay_verify, razorpayPayment } from "../Api/Api";
 import { toast } from "react-toastify";
+import { IoIosCheckmarkCircle } from "react-icons/io";
 
 const ProData = ({ data, id }) => {
   const { color, heading, subheading, features, price, plan } = data;
   const [loading, setloading] = useState(false);
-  const { profileData, token, profileRefetch } = useStore();
+  const {
+    profileData,
+    token,
+    profileRefetch,
+    setisOpenDeleteMessage,
+    setDeleteNotification,
+  } = useStore();
 
   // ! payment
   const initpay = (data) => {
@@ -20,7 +27,6 @@ const ProData = ({ data, id }) => {
       description: "Pro Mode Payment",
       order_id: data.order.id,
       handler: async function (response) {
-        console.log("Payment Success Response", response);
         const verifyData = await razorpay_verify(
           token,
           response?.razorpay_order_id,
@@ -39,20 +45,29 @@ const ProData = ({ data, id }) => {
 
   // ! select plan
   const handleSelectPlan = async (plan) => {
-    try {
-      setloading(true);
-      const data = await razorpayPayment(
-        token,
-        plan,
-        profileData?.profile._id,
-        price
-      );
-      if (data?.success) {
-        initpay(data);
-      }
-    } finally {
-      setloading(false);
-    }
+    setisOpenDeleteMessage(true);
+    setDeleteNotification({
+      heading: heading,
+      content: "Proceed with payment?",
+      action: "Pay",
+      onConfirm: async () => {
+        try {
+          setloading(true);
+          const data = await razorpayPayment(
+            token,
+            plan,
+            profileData?.profile._id,
+            price
+          );
+          if (data?.success) {
+            initpay(data);
+          }
+        } finally {
+          setloading(false);
+          setisOpenDeleteMessage(false);
+        }
+      },
+    });
   };
 
   return (
@@ -60,6 +75,12 @@ const ProData = ({ data, id }) => {
       className={`w-full rounded-md text-white overflow-hidden bg-gray-100 ${
         id !== 0 ? "mt-[2rem]" : "mt-0"
       }`}
+
+      style={
+         plan === profileData?.profile.plan
+          ? { border: `.1rem solid ${color}` }
+          : {}
+      }
     >
       {/* heading */}
       <div
@@ -84,12 +105,13 @@ const ProData = ({ data, id }) => {
       {price &&
         (plan === profileData?.profile.plan ? (
           <div className="cc gap-3 mt-1 mb-5">
-            <p className="w-[94%] bg-gray-300 h-[.05rem] rounded-full"></p>
+            <p className="w-[94%] bg-gray-300 h-[0.05rem] rounded-full"></p>
             <button
-              className="rounded-full w-[94%] py-3 cursor-default cc"
-              style={{ border: `.2rem solid ${color}`, color: color }}
+              className="rounded-full w-[94%] py-3 px-5 cursor-default flex justify-center items-center gap-2 text-lg font-semibold transition duration-200"
+              style={{ border: `.1rem solid ${color}`, color: color }}
             >
-              Selected
+              <span>Selected</span>
+              <IoIosCheckmarkCircle className="text-2xl" />
             </button>
           </div>
         ) : (

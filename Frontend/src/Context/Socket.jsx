@@ -69,7 +69,7 @@ export const SocketProvider = ({ children }) => {
   }, [profileData]);
 
   return (
-    <socketContext.Provider value={{ socket, setSocket, handleQuery, message,setMessage,handleQuery,query, setQuery }}>
+    <socketContext.Provider value={{ socket, setSocket, handleQuery, message,setMessage,query, setQuery }}>
       {children}
     </socketContext.Provider>
   );

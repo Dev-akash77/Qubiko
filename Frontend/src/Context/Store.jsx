@@ -6,17 +6,25 @@ import { useQuery } from "@tanstack/react-query";
 const StoreContext = createContext();
 
 export const StoreContextProvider = ({ children }) => {
-
   // ! header for qubiko
-  const [heading, setheading] = useState({name:"Qubiko AI",logo:true,search:false});
+  const [heading, setheading] = useState({
+    name: "Qubiko AI",
+    logo: true,
+    search: false,
+  });
   // !delete notification
-  const [deleteNotification, setDeleteNotification] = useState({heading:"Logout",content:"Are you sure want to log out?",action:"logout"});
+  const [deleteNotification, setDeleteNotification] = useState({
+    heading: "",
+    content: "",
+    action: "",
+    onConfirm: null,
+  });
 
   // ! isopeen dm
   const [isOpenDeleteMessage, setisOpenDeleteMessage] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   // ! chat id
-  const [chatID, setChatID] = useState("")
+  const [chatID, setChatID] = useState("");
   // ! is login or signup
   const [islogin, setislogin] = useState();
   // ! login and signup from data
@@ -25,18 +33,19 @@ export const StoreContextProvider = ({ children }) => {
     email: "",
     password: "",
   });
- 
+
   const [searchInput, setsearchInput] = useState("");
   // ! here is auth token
   const [token, setToken] = useState(
     JSON.parse(localStorage.getItem("token")) || false
   );
-  
-  useEffect(()=>{
-    localStorage.setItem("token",JSON.stringify(token));
-  },[token])
+
+  useEffect(() => {
+    localStorage.setItem("token", JSON.stringify(token));
+  }, [token]);
   // !!!!!!!!!!!!!!! here is all the tanstack query start
-  const {    //! login react query
+  const {
+    //! login react query
     data: loginData,
     refetch: loginRefetch,
     isLoading: loginLoading,
@@ -46,33 +55,29 @@ export const StoreContextProvider = ({ children }) => {
     enabled: false,
   });
 
+  // ! user profile react querys
+  const {
+    data: profileData,
+    refetch: profileRefetch,
+    isLoading: profileLoading,
+  } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => userProfile(token),
+    enabled: !!token,
+  });
 
-// ! user profile react querys
-const {
-  data: profileData,
-  refetch: profileRefetch, 
-  isLoading: profileLoading,
-} = useQuery({
-  queryKey: ["profile"],
-  queryFn: () =>  userProfile(token),
-  enabled: !!token,
-});
-
-
-// ! user history react query
-const {
-  data: historyData,
-  refetch: historyRefetch,
-  isLoading: historyLoading,
-} = useQuery({
-  queryKey: ["history"],
-  queryFn: () =>  UserHistory(token),
-  enabled: !!token,
-});
+  // ! user history react query
+  const {
+    data: historyData,
+    refetch: historyRefetch,
+    isLoading: historyLoading,
+  } = useQuery({
+    queryKey: ["history"],
+    queryFn: () => UserHistory(token),
+    enabled: !!token,
+  });
 
   // !!!!!!!!!!!!!!!!! here is all the tanstack query end
-
-
 
   // ! changes handle fromdata function
   const handleFromdata = (e) => {
@@ -114,7 +119,7 @@ const {
       setFromData({ name: "", email: "", password: "" });
     }
   }, [loginData]);
- 
+
   return (
     <StoreContext.Provider
       value={{
@@ -125,25 +130,25 @@ const {
         fromData, // ! here is all the auth from data
         loginLoading, // ! login Loding
         token, // ! here is authorization token
-        setToken,//! token set 
-        heading,  //! header heading
+        setToken, //! token set
+        heading, //! header heading
         setheading, //! header heading
         profileData, //! profile data
-        profileLoading,//! profilrLoading
-        profileRefetch,//! profile refetch
-        chatID,  //! chat id
+        profileLoading, //! profilrLoading
+        profileRefetch, //! profile refetch
+        chatID, //! chat id
         setChatID, //! chat id
-        historyData,//! get history data
-        historyRefetch,//! history refetch
+        historyData, //! get history data
+        historyRefetch, //! history refetch
         historyLoading, //! history loading
         isSearchOpen, //! is serach open
         setIsSearchOpen, //! set search open value
-        searchInput,  //! search input data
+        searchInput, //! search input data
         setsearchInput, //! search input data set
         deleteNotification, //! delete notification
         setDeleteNotification, //! delete notification
         isOpenDeleteMessage, //! isopen Delete
-        setisOpenDeleteMessage,//! isopen Delete
+        setisOpenDeleteMessage, //! isopen Delete
       }}
     >
       {children}

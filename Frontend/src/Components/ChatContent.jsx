@@ -4,6 +4,7 @@ import { useSocket } from "../Context/Socket";
 import Prism from "prismjs";
 import ChatLoading from "../UI/ChatLoading";
 import { toast } from "react-toastify";
+import rehypeRaw from "rehype-raw";
 
 const ChatContent = () => {
   const { message } = useSocket();
@@ -46,31 +47,37 @@ const ChatContent = () => {
                     <ChatLoading />
                   ) : (
                     <ReactMarkdown
-                      components={{
-                        code({ inline, className, children, ...props }) {
-                          const match = /language-(\w+)/.exec(className || "");
-                          return !inline && match ? (
-                            <div className="relative">
-                              <button
-                                className="absolute top-2 right-2 bg-gray-200 cursor-pointer text-black text-xs px-4 py-1 rounded"
-                                onClick={() => copyToClipboard(children)}
-                              >
-                                Copy
-                              </button>
-                              <pre className={className} {...props}>
-                                <code className={className}>{children}</code>
-                              </pre>
-                            </div>
-                          ) : (
-                            <code className={className} {...props}>
-                              {children}
-                            </code>
-                          );
-                        },
-                      }}
-                    >
-                      {cur.answer}
-                    </ReactMarkdown>
+                    rehypePlugins={[rehypeRaw]}
+                    components={{
+                      code({ inline, className, children, ...props }) {
+                        const match = /language-(\w+)/.exec(className || "");
+                        return !inline && match ? (
+                          <div className="relative">
+                            <button
+                              className="absolute top-2 right-2 bg-gray-200 text-black text-xs px-4 py-1 rounded"
+                              onClick={() => copyToClipboard(children)}
+                            >
+                              Copy
+                            </button>
+                            <pre className={className} {...props}>
+                              <code className={className}>{children}</code>
+                            </pre>
+                          </div>
+                        ) : (
+                          <code className={className} {...props}>
+                            {children}
+                          </code>
+                        );
+                      },
+                      img: ({ node, ...props }) => (
+                        <img className="max-w-full h-auto rounded-xl mt-4" {...props} />
+                      ),
+                    }}
+                  >
+                    {cur.answer}
+                  </ReactMarkdown>
+                  
+                  
                   )}
                 </div>
               </div>

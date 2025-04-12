@@ -5,6 +5,7 @@ import Razorpay from "razorpay";
 
 import bcrypt from "bcrypt";
 import { sendEmail } from "../Config/nodemailer.js";
+import { imageGeneration } from "../Tools/generateImage.tool.js";
 
 // ! register controller'
 export const registerController = async (req, res) => {
@@ -344,6 +345,21 @@ export const verifyRazorPay = async (req, res) => {
 
   } catch (error) {
     console.log("verifyRazorPay controller erorr", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+
+
+// !get image
+export const generateImage = async (req, res) => {
+  try {
+    const { prompt } = req.body;
+ const response = await imageGeneration(prompt);
+
+    res.status(200).json({ success: true, response });
+  } catch (error) {
+    console.log("sending_otp_email controller error: ", error);
     res.status(400).json({ success: false, message: error.message });
   }
 };

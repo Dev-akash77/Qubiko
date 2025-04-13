@@ -8,11 +8,18 @@ import { useStore } from "../Context/Store";
 import { toast } from "react-toastify";
 import { deleteAllHistory } from "../Api/Api";
 
-
 const Header = ({ icon, text, search }) => {
   const navigate = useNavigate();
-  const { isSearchOpen, setIsSearchOpen, searchInput, setsearchInput, token ,historyRefetch} =
-    useStore();
+  const {
+    isSearchOpen,
+    setIsSearchOpen,
+    searchInput,
+    setsearchInput,
+    token,
+    historyRefetch,
+    setisOpenDeleteMessage,
+    setDeleteNotification,
+  } = useStore();
   const searchInputRef = useRef(null);
   //! Automatically focus on the input when search opens
   useEffect(() => {
@@ -24,7 +31,9 @@ const Header = ({ icon, text, search }) => {
   if (isSearchOpen) {
     return (
       <div className="h-[6rem] cc z-50 opacity-[.8]">
-        <div className={`container flex items-center justify-start gap-[1rem] `}>
+        <div
+          className={`container flex items-center justify-start gap-[1rem] `}
+        >
           <IoChevronBackOutline
             className="text-3xl cursor-pointer"
             onClick={() => {
@@ -48,16 +57,27 @@ const Header = ({ icon, text, search }) => {
     );
   }
 
-
   // ! delete all user history
   const handleDeleteAllHistory = async () => {
-    const data = await deleteAllHistory(token);
-    if (data?.success) {
-      toast.success(data?.message);
-      historyRefetch();
-    }
+    setisOpenDeleteMessage(true);
+    setDeleteNotification({
+      heading: "Confirm Deletion",
+      content: "Clear all data now?",
+      action: "delete",
+      onConfirm: async()=>{
+        try {
+          const data = await deleteAllHistory(token);
+          if (data?.success) {
+            toast.success(data?.message);
+            historyRefetch();
+          }
+        } finally {
+          setisOpenDeleteMessage(true);
+        }
+      },
+    });
+    
   };
-
 
   return (
     <div className="h-[6rem] cc z-50">
@@ -67,7 +87,14 @@ const Header = ({ icon, text, search }) => {
         } gap-[4rem]`}
       >
         {icon ? (
-          <img src={logo} alt="logo" className="w-[2.3rem] ml-2 cursor-pointer" onClick={()=>{navigate("/")}}/>
+          <img
+            src={logo}
+            alt="logo"
+            className="w-[2.3rem] ml-2 cursor-pointer"
+            onClick={() => {
+              navigate("/");
+            }}
+          />
         ) : (
           <IoChevronBackOutline
             className="text-3xl cursor-pointer"

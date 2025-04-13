@@ -5,7 +5,6 @@ import InputChat from "../Components/InputChat";
 import ChatContent from "../Components/ChatContent";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../Context/Socket";
-import { toast } from "react-toastify";
 
 const Chat = () => {
   const { setheading, heading } = useStore();

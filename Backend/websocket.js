@@ -80,7 +80,7 @@ io.on("connection", (socket) => {
         const currentChat = await chatModel.findById(chatID);
 
         // ! if current chat is wrong throw an error
-        if (!currentChat) {
+        if (!currentChat) { 
           socket.emit("error", "Current chat not found");
           return false;
         }

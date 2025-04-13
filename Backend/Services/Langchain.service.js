@@ -2,12 +2,11 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { MessagesAnnotation, StateGraph } from "@langchain/langgraph";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 import {  temperature, weather } from "../Tools/weather.tool.js";
-import { generate_image } from "../Tools/generateImage.tool.js";
 import { code_Reviewer,code_Generator } from "../Tools/codeReview.tool.js";
 import { chatModel } from "../Models/chat.model.js";
 import { SYSTEM_PROMPT } from './system_prompt.js';
 
-// ✅ Initialize Gemini LLM
+//! ✅ Initialize Gemini LLM
 const llm = new ChatGoogleGenerativeAI({
   modelName: "gemini-1.5-flash",
   maxOutputTokens: 2000,
@@ -17,7 +16,7 @@ const llm = new ChatGoogleGenerativeAI({
 });
 
 // !✅ Register Tools
-const tools = [weather,temperature,generate_image,code_Reviewer,code_Generator];
+const tools = [weather,temperature,code_Reviewer,code_Generator];
 const llmWithTools = llm.bindTools(tools);
 
 // !✅ Define LLM Call Node
@@ -78,7 +77,7 @@ export const askQubiko = async (query, chatId) => {
 
     if (chatId) {
       const currentChat = await chatModel.findById(chatId);
-
+      
       if (currentChat) {
         conversationHistory = currentChat.message.map(msg => [
           { role: "user", content: msg.question },
@@ -99,7 +98,7 @@ export const askQubiko = async (query, chatId) => {
     });
 
     const aiResponse = result.messages.at(-1)?.content;
-
+   
     return aiResponse;
   } catch (error) {
     console.error("Gemini Chat Memory Error:", error);

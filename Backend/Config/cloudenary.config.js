@@ -9,3 +9,4 @@ export const cloudenaryConnection = async () => {
     api_secret: process.env.CLOUD_SECRET,
   });
 };
+ 

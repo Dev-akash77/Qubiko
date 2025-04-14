@@ -16,6 +16,7 @@ const Authentication = () => {
     handleAuth,
     fromData,
     loginLoading,
+    signLoader,
   } = useStore();
 
   const [isShow, setIsShow] = useState(false);
@@ -107,7 +108,7 @@ const Authentication = () => {
                 type={"submit"}
                 className="bg-blue mt-3 rounded-md text-white text-xl py-3 cursor-pointer cc"
               >
-                {loginLoading ? <Small_Loader /> : islogin}
+                {loginLoading || signLoader ? <Small_Loader /> : islogin}
               </button>
             </form>
 

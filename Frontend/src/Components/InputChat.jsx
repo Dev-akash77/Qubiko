@@ -1,13 +1,13 @@
 import React from "react";
-import { BsFillSendFill } from "react-icons/bs";
+import { IoSend } from "react-icons/io5";
 import { useSocket } from "../Context/Socket";
-
+import { FaMicrophone } from "react-icons/fa";
 const InputChat = ({ chatId }) => {
-  const { handleQuery, query, setQuery } = useSocket();
+  const { handleQuery, query, setQuery,handleMicrophone } = useSocket();
   return (
     <div className="cc h-[7rem]">
       <form
-        className="flex justify-between items-center md:borde w-[85%]"
+        className="flex justify-between items-center rounded-lg bg-gray-100 p-3"
         onSubmit={(e) => {
           handleQuery(e, chatId);
         }}
@@ -21,14 +21,18 @@ const InputChat = ({ chatId }) => {
           type="text"
           name="query"
           placeholder="Ask me anything..."
-          className="bg-gray-100 rounded-lg text-lg p-3 w-[82%] border-0 outline-none"
+          className="rounded-lg text-lg border-0 outline-none w-full"
         />
-        <button
-          type="submit"
-          className="rounded-full w-[2.8rem] h-[2.8rem] cc text-white bg-blue cursor-pointer"
-        >
-          <BsFillSendFill className="text-[1.3rem]" />
-        </button>
+        <div className="flex items-center justify-center gap-3">
+          {/* ! microphone */}
+          <div className="cursor-pointer" onClick={()=>{handleMicrophone()}}>
+            <FaMicrophone className="text-[1.2rem]" />
+          </div>
+          {/* !send button */}
+          <button type="submit" className=" cursor-pointer">
+            <IoSend className="text-[1.2rem]" />
+          </button>
+        </div>
       </form>
     </div>
   );

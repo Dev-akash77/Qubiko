@@ -8,7 +8,7 @@ import { MdLanguage } from "react-icons/md";
 import { TbDeviceUnknown } from "react-icons/tb";
 import { IoIosLogOut } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
-import { data, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MainLoader from "../UI/MainLoader";
 import imagedefault from "../assets/default.png";
 const Account = () => {

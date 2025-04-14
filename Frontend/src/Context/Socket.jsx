@@ -7,10 +7,11 @@ const socketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-  const { profileData, chatID, setChatID,historyRefetch } = useStore();
+  const { profileData, chatID, setChatID, historyRefetch } = useStore();
   const [message, setMessage] = useState([]);
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState("");
 
+  // ! send message
   const handleQuery = async (e, chatId) => {
     e.preventDefault();
     if (!socket) return;
@@ -25,6 +26,33 @@ export const SocketProvider = ({ children }) => {
     historyRefetch();
   };
 
+  // ! voice message
+  const handleMicrophone = () => {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      alert("Your browser doesn't support Speech Recognition.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setQuery(transcript);
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error", event.error);
+    };
+
+    recognition.start();
+  };
+  
 
   useEffect(() => {
     if (profileData && profileData.profile?._id) {
@@ -69,7 +97,18 @@ export const SocketProvider = ({ children }) => {
   }, [profileData]);
 
   return (
-    <socketContext.Provider value={{ socket, setSocket, handleQuery, message,setMessage,query, setQuery }}>
+    <socketContext.Provider
+      value={{
+        socket,
+        setSocket,
+        handleQuery,
+        message,
+        setMessage,
+        query,
+        setQuery,
+        handleMicrophone,
+      }}
+    >
       {children}
     </socketContext.Provider>
   );

@@ -1,0 +1,67 @@
+[
+  {
+    "heading": "Coding",
+    "content": [
+      {
+        "headingContent": "Generate Code",
+        "description": "Generate well-structured and industry-standard code with detailed explanations."
+      },
+      {
+        "headingContent": "Review Code",
+        "description": "Analyze and review your code for bugs, optimizations, and best practices."
+      }
+    ]
+  },
+  {
+    "heading": "Writing",
+    "content": [
+      {
+        "headingContent": "Write Assignment",
+        "description": "Create detailed academic-style assignments on any topic, formatted professionally."
+      },
+      {
+        "headingContent": "Write Poem",
+        "description": "Generate creative and unique poems in various styles and tones."
+      }
+    ]
+  },
+  {
+    "heading": "Text Tools",
+    "content": [
+      {
+        "headingContent": "Summarize Text",
+        "description": "Condense long text into short summaries while keeping key points intact."
+      },
+      {
+        "headingContent": "Answer Anything",
+        "description": "Ask anything—Qubiko gives instant, human-like answers to all your questions."
+      }
+    ]
+  },
+  {
+    "heading": "Information",
+    "content": [
+      {
+        "headingContent": "Get Latest News",
+        "description": "Fetch the latest headlines and updates from around the world in real-time."
+      },
+      {
+        "headingContent": "Tech Updates",
+        "description": "Stay informed with the newest trends and updates in the tech industry."
+      }
+    ]
+  },
+  {
+    "heading": "Weather",
+    "content": [
+      {
+        "headingContent": "Current Weather",
+        "description": "Get real-time weather updates for your location."
+      },
+      {
+        "headingContent": "Forecast",
+        "description": "Check upcoming weather conditions for any city."
+      }
+    ]
+  }
+]

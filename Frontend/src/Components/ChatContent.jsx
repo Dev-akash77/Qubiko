@@ -42,7 +42,7 @@ const ChatContent = () => {
 
               <div className="user flex justify-center">
                 
-                <div className="w-full py-4 p-2 text-black">
+                <div className="w-full p-2 text-black">
                   {cur.answer === "Loading..." ? ( 
                     <ChatLoading />
                   ) : (

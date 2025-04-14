@@ -35,6 +35,8 @@ export const StoreContextProvider = ({ children }) => {
   });
 
   const [searchInput, setsearchInput] = useState("");
+  // !signup loader
+  const [signLoader, setSignLoader] = useState(false)
   // ! here is auth token
   const [token, setToken] = useState(
     JSON.parse(localStorage.getItem("token")) || false
@@ -93,6 +95,7 @@ export const StoreContextProvider = ({ children }) => {
   // ! handle user authentication
   const handleAuth = async (e) => {
     e.preventDefault();
+    setSignLoader(true)
     try {
       // ! signup
       if (islogin === "Sign up") {
@@ -107,8 +110,8 @@ export const StoreContextProvider = ({ children }) => {
       if (islogin === "Login") {
         loginRefetch();
       }
-    } catch (error) {
-      console.log(error);
+    } finally {
+      setSignLoader(false)
     }
   };
 
@@ -149,6 +152,7 @@ export const StoreContextProvider = ({ children }) => {
         setDeleteNotification, //! delete notification
         isOpenDeleteMessage, //! isopen Delete
         setisOpenDeleteMessage, //! isopen Delete
+        signLoader,//! singup loader
       }}
     >
       {children}
